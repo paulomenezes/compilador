@@ -28,4 +28,13 @@ public class Token {
 	public void setLexema(String lexema) {
 		this.lexema = lexema;
 	}
+	
+	@Override
+	public String toString() {
+		if (lexema != null) {
+			return "[" + tipo + ", " + lexema + "]";
+		} else {
+			return "[" + tipo + "]";
+		}
+	}
 }
