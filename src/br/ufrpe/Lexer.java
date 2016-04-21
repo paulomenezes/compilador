@@ -40,13 +40,13 @@ public class Lexer {
 		}
 
 		if (nextChar >= '0' && nextChar <= '9') {
-			tipo = TokenType.NUM_LITERAL;
+			tipo = TokenType.NUMERO_LITERAL;
 		} else if (nextChar == ';') {
-			tipo = TokenType.PT_VIRG;
+			tipo = TokenType.PONTO_VIRGULA;
 		} else if (nextChar == '+') {
-			tipo = TokenType.ADD;
+			tipo = TokenType.OP_MAIS;
 		} else if (nextChar == '*') {
-			tipo = TokenType.MULT;
+			tipo = TokenType.OP_MULTIPLICACAO;
 		} else if (nextChar == '(') {
 			tipo = TokenType.ABRE_PAR;
 		} else if (nextChar == ')') {
