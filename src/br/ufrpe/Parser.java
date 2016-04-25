@@ -220,11 +220,11 @@ public class Parser {
 	}
 	
 	private void parseExpressao() throws Exception {
+		parseExpressaoBasica();
 		parseExpressaoA();
 	}
 	
 	private void parseExpressaoA() throws Exception {
-		parseExpressaoBasica();
 		if (currentToken.getTipo() == TokenType.OR || 
 			currentToken.getTipo() == TokenType.AND) {
 			acceptToken();
@@ -301,50 +301,5 @@ public class Parser {
 				   currentToken.getTipo() == TokenType.IDENTIFICADOR) {
 			acceptToken();
 		} 
-	}
-	
-	/**
-	 *   <expr> ::= <exprBasic> <restExpr>
-	 */
-	private void parseExpr() throws Exception {
-		parseExprBasic();
-		parseRestExpr();
-	}
-
-	/**
-	 *   <restExpr> ::= "+" <expr>
-	 *                | "*" <expr>
-	 *                | --vazio--
-	 */
-	private void parseRestExpr() throws Exception {
-		
-		if (currentToken.getTipo() == TokenType.OP_MAIS) {
-			acceptToken();
-			parseExpr();
-		} else 	if (currentToken.getTipo() == TokenType.OP_MULTIPLICACAO) {
-			acceptToken();
-			parseExpr();
-		} else {
-			/* faz nada */
-			
-		}		
-	}
-	
-	/**
-	 *   <exprBasic> ::= "(" <expr> ")" 
-	 *                 | NUM_LITERAL
-	 */
-	private void parseExprBasic() throws Exception {
-		if (currentToken.getTipo() == TokenType.ABRE_PAR) {
-			acceptToken();
-			parseExpr();
-			acceptToken(TokenType.FECHA_PAR);
-			
-		} else if (currentToken.getTipo() == TokenType.NUMERO_LITERAL) {
-			acceptToken();
-			
-		} else {
-			throw new Exception("Token inesperado: " + currentToken.getTipo() + ".");
-		}
 	}
 }
