@@ -92,11 +92,15 @@ public class Lexer {
 			if (nextChar == '>') { 
 				lexema = ">>";
 				tipo = TokenType.COMENTARIO_BLOCO;
+				
+				int fechaComentario = 0;
 				do {
 					next();
-					if (this.nextChar != '\n' && this.nextChar != '\r')
-						lexema += "" + (char)nextChar;
-				} while(this.nextChar != '\n' && this.nextChar != '\r');
+					lexema += "" + (char)nextChar;
+					if (this.nextChar == '<')
+						fechaComentario++;
+				} while(fechaComentario < 2);
+				next();
 			} else {
 				tipo = TokenType.MAIOR_QUE;
 			}

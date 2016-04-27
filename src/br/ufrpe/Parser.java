@@ -62,7 +62,10 @@ public class Parser {
 	 *   <program> ::= <decl_global>*
 	 */
 	private void parseProgram() throws Exception {
-		parseDeclGlobal();
+		TokenType[] tipo = { TokenType.INT, TokenType.CHAR, TokenType.FLOAT, TokenType.CARACTER_LITERAL, TokenType.VOID };
+		while (Arrays.asList(tipo).contains(currentToken.getTipo())) {
+			parseDeclGlobal();
+		}
 	}
 	
 	/**
@@ -156,7 +159,28 @@ public class Parser {
 		if (Arrays.asList(tipo).contains(currentToken.getTipo())) {
 			parseDeclVariavel();
 		} else if (currentToken.getTipo() == TokenType.IDENTIFICADOR) {
-			parseAtribuicao();
+			acceptToken();
+			if(currentToken.getTipo() == TokenType.ABRE_PAR){
+				/*chamada_func_cmd*/
+					/*chamada_func*/
+					//acceptToken(TokenType.IDENTIFICADOR);
+					acceptToken(TokenType.ABRE_PAR);
+					parseListaExprs();
+					acceptToken(TokenType.FECHA_PAR);
+				acceptToken(TokenType.PONTO_VIRGULA);
+			} else {
+				/*atribuição*/
+					/*lista_idents*/
+					//acceptToken(TokenType.IDENTIFICADOR);
+					while (currentToken.getTipo() == TokenType.VIRGULA) {
+						acceptToken(TokenType.VIRGULA);
+						acceptToken(TokenType.IDENTIFICADOR);
+					}
+				acceptToken(TokenType.ATRIBUICAO);
+				parseExpressao();
+				acceptToken(TokenType.PONTO_VIRGULA);
+			}
+			
 		} else if (currentToken.getTipo() == TokenType.WHILE) {
 			parseIteracao();
 		} else if (currentToken.getTipo() == TokenType.IF) {
@@ -189,21 +213,34 @@ public class Parser {
 		parseCommando();
 	}
 	
-	private void parseDecisao() {
+	private void parseDecisao() throws Exception {
 		/**/
+		parseRestoDecisao();
+		if(currentToken.getTipo()==TokenType.ELSE){
+			acceptToken(TokenType.ELSE);
+			parseCommando();
+		}
+	}
+	
+	private void parseRestoDecisao() throws Exception {
+		/*Fatoração à Esquerda*/
+		acceptToken(TokenType.IF);
+		parseExpressao();
+		acceptToken(TokenType.THEN);
+		parseCommando();
 	}
 	
 	private void parseEscrita() throws Exception {
 		acceptToken(TokenType.PRNT);
 		acceptToken(TokenType.ABRE_PAR);
-		//parseListaExprs();
+		parseListaExprs();
 		acceptToken(TokenType.FECHA_PAR);
 		acceptToken(TokenType.PONTO_VIRGULA);
 	}
 	
 	private void parseRetorno() throws Exception {
 		acceptToken(TokenType.RETURN);
-		//parseExpressao();
+		parseExpressao();
 		acceptToken(TokenType.PONTO_VIRGULA);
 	}
 	
@@ -213,25 +250,36 @@ public class Parser {
 	}
 	
 	private void parseChamadaFunc() throws Exception {
-		parseChamadaFunc();
+		acceptToken(TokenType.IDENTIFICADOR);
 		acceptToken(TokenType.ABRE_PAR);
-		//parseListaExprs();
+		parseListaExprs();
 		acceptToken(TokenType.FECHA_PAR);
 	}
 	
+	private void parseListaExprs() throws Exception {
+		TokenType[] tipo = { TokenType.ABRE_PAR, TokenType.NOT, TokenType.OP_MENOS, TokenType.NUMERO_LITERAL, TokenType.CARACTER_LITERAL, TokenType.NUMERO_FLUTUANTE, TokenType.IDENTIFICADOR};
+		if(Arrays.asList(tipo).contains(currentToken.getTipo())){
+			parseExpressao();
+			while(currentToken.getTipo() == TokenType.VIRGULA){
+				acceptToken();
+				parseExpressao();
+			}
+		}
+	}
+	
 	private void parseExpressao() throws Exception {
-		parseExpressaoBasica();
 		parseExpressaoA();
 	}
 	
 	private void parseExpressaoA() throws Exception {
+		parseExpressaoBasica();
 		if (currentToken.getTipo() == TokenType.OR || 
 			currentToken.getTipo() == TokenType.AND) {
 			acceptToken();
-			parseExpressaoB();
 		} else {
 			
 		}
+		parseExpressaoB();
 	}
 	
 	private void parseExpressaoB() throws Exception {
@@ -243,10 +291,10 @@ public class Parser {
 			currentToken.getTipo() == TokenType.MENOR_IGUAL || 
 			currentToken.getTipo() == TokenType.MAIOR_IGUAL) {
 			acceptToken();
-			parseExpressaoC();
 		} else {
 			
 		}
+		parseExpressaoC();
 	}
 	
 	private void parseExpressaoC() throws Exception {
@@ -254,11 +302,12 @@ public class Parser {
 		if (currentToken.getTipo() == TokenType.OP_MAIS || 
 			currentToken.getTipo() == TokenType.OP_MENOS) {
 			acceptToken();
-			parseExpressaoD();
 		} else {
 			
 		}
+		parseExpressaoD();
 	}
+	
 	
 	private void parseExpressaoD() throws Exception {
 		parseExpressaoBasica();
@@ -266,10 +315,10 @@ public class Parser {
 			currentToken.getTipo() == TokenType.OP_DIVISAO || 
 			currentToken.getTipo() == TokenType.OP_MODULO) {
 			acceptToken();
-			parseExpressaoE();
 		} else {
 			
 		}
+		parseExpressaoE();
 	}
 	
 	private void parseExpressaoE() throws Exception {
@@ -277,10 +326,10 @@ public class Parser {
 		if (currentToken.getTipo() == TokenType.NOT || 
 			currentToken.getTipo() == TokenType.OP_MENOS) {
 			acceptToken();
-			parseExpressaoBasica();
 		} else {
 			
 		}
+		parseExpressaoBasica();
 	}
 	
 	private void parseExpressaoBasica() throws Exception {
@@ -301,5 +350,50 @@ public class Parser {
 				   currentToken.getTipo() == TokenType.IDENTIFICADOR) {
 			acceptToken();
 		} 
+	}
+	
+	/**
+	 *   <expr> ::= <exprBasic> <restExpr>
+	 */
+	private void parseExpr() throws Exception {
+		parseExprBasic();
+		parseRestExpr();
+	}
+
+	/**
+	 *   <restExpr> ::= "+" <expr>
+	 *                | "*" <expr>
+	 *                | --vazio--
+	 */
+	private void parseRestExpr() throws Exception {
+		
+		if (currentToken.getTipo() == TokenType.OP_MAIS) {
+			acceptToken();
+			parseExpr();
+		} else 	if (currentToken.getTipo() == TokenType.OP_MULTIPLICACAO) {
+			acceptToken();
+			parseExpr();
+		} else {
+			/* faz nada */
+			
+		}		
+	}
+	
+	/**
+	 *   <exprBasic> ::= "(" <expr> ")" 
+	 *                 | NUM_LITERAL
+	 */
+	private void parseExprBasic() throws Exception {
+		if (currentToken.getTipo() == TokenType.ABRE_PAR) {
+			acceptToken();
+			parseExpr();
+			acceptToken(TokenType.FECHA_PAR);
+			
+		} else if (currentToken.getTipo() == TokenType.NUMERO_LITERAL) {
+			acceptToken();
+			
+		} else {
+			throw new Exception("Token inesperado: " + currentToken.getTipo() + ".");
+		}
 	}
 }
