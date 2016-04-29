@@ -1,27 +1,5 @@
-void main() {
-	 int n, nRebuilt;
-	 n = 51423; ** numero a ser testado
-	 
-	 >> A divisao de inteiros arredonda para baixo (em caso de divisao inexata). 
-	 	Assim, numeros impares ficarao com uma unidade a 
-	 	menos do que seu valor inicial. <<
-	 
-	 nRebuilt = (n / 2) * 2;
-	 
-	 if n == nRebuilt then
-	 	prnt('P', 'A', 'R');
-	 else
-	 	prnt('I', 'M', 'P', 'A', 'R');
-}
-
-int n, soma;
-void main() {
-	n = 9; ** quantidade de numeros impares positivos
-	somaImpares(n);
-}
-
 int somaImpares() {
-	i, proxImpar, resultado : int;
+	int i, proxImpar, resultado;
 	resultado = 0;
 	i = 0;
 	while (i < n) {

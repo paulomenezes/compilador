@@ -74,21 +74,35 @@ public class Parser {
 	 */
 	private void parseDeclGlobal() throws Exception {
 		TokenType[] tipo = { TokenType.INT, TokenType.CHAR, TokenType.FLOAT, TokenType.CARACTER_LITERAL };
-		if (Arrays.asList(tipo).contains(currentToken.getTipo())) {
+		if(currentToken.getTipo() == TokenType.VOID){
+			acceptToken(TokenType.VOID);
+			acceptToken(TokenType.IDENTIFICADOR);
+			parseDeclFuncao();
+		}
+		else{
+			parseTipo();
+			acceptToken(TokenType.IDENTIFICADOR);
+			if(currentToken.getTipo()==TokenType.ABRE_PAR){
+				parseDeclFuncao();
+			}
+			else{
+				parseDeclVariavel();
+			}
+		}
+		/*if (Arrays.asList(tipo).contains(currentToken.getTipo())) {
 			parseDeclVariavel();
 		} else if (Arrays.asList(tipo).contains(currentToken.getTipo()) ||
 				   currentToken.getTipo() == TokenType.VOID) {
 			parseDeclFuncao();
 		} else {
-			/* FAZ NADA */
-		}
+			/* FAZ NADA 
+		}*/
 	}
 	
 	/**
 	 *   <decl_variavel> ::= <tipo> <lista_idents> ;
 	 */
 	private void parseDeclVariavel() throws Exception {
-		parseTipo();
 		parseListaIdents();
 		acceptToken(TokenType.PONTO_VIRGULA);
 	}
@@ -101,10 +115,11 @@ public class Parser {
 	}
 	
 	private void parseListaIdents() throws Exception {
-		acceptToken(TokenType.IDENTIFICADOR);
+		
 		while (currentToken.getTipo() == TokenType.VIRGULA) {
 			acceptToken(TokenType.VIRGULA);
 			acceptToken(TokenType.IDENTIFICADOR);
+			System.out.println("teste");
 		}
 	}
 	
@@ -114,15 +129,9 @@ public class Parser {
 	}
 	
 	private void parseAssinatura() throws Exception {
-		TokenType[] tipo = { TokenType.INT, TokenType.CHAR, TokenType.FLOAT, TokenType.CARACTER_LITERAL };
-		if (Arrays.asList(tipo).contains(currentToken.getTipo()) ||
-			currentToken.getTipo() == TokenType.VOID) {
-			acceptToken();
-			acceptToken(TokenType.IDENTIFICADOR);
-			acceptToken(TokenType.ABRE_PAR);
-			parseParamFormais();
-			acceptToken(TokenType.FECHA_PAR);
-		}
+		acceptToken(TokenType.ABRE_PAR);
+		parseParamFormais();
+		acceptToken(TokenType.FECHA_PAR);
 	}
 	
 	private void parseParamFormais() throws Exception {
@@ -157,28 +166,15 @@ public class Parser {
 	private void parseCommando() throws Exception {
 		TokenType[] tipo = { TokenType.INT, TokenType.CHAR, TokenType.FLOAT, TokenType.CARACTER_LITERAL };
 		if (Arrays.asList(tipo).contains(currentToken.getTipo())) {
+			parseTipo();
+			acceptToken(TokenType.IDENTIFICADOR);
 			parseDeclVariavel();
 		} else if (currentToken.getTipo() == TokenType.IDENTIFICADOR) {
 			acceptToken();
 			if(currentToken.getTipo() == TokenType.ABRE_PAR){
-				/*chamada_func_cmd*/
-					/*chamada_func*/
-					//acceptToken(TokenType.IDENTIFICADOR);
-					acceptToken(TokenType.ABRE_PAR);
-					parseListaExprs();
-					acceptToken(TokenType.FECHA_PAR);
-				acceptToken(TokenType.PONTO_VIRGULA);
+				parseChamadaFuncCmd();
 			} else {
-				/*atribuição*/
-					/*lista_idents*/
-					//acceptToken(TokenType.IDENTIFICADOR);
-					while (currentToken.getTipo() == TokenType.VIRGULA) {
-						acceptToken(TokenType.VIRGULA);
-						acceptToken(TokenType.IDENTIFICADOR);
-					}
-				acceptToken(TokenType.ATRIBUICAO);
-				parseExpressao();
-				acceptToken(TokenType.PONTO_VIRGULA);
+				parseAtribuicao();
 			}
 			
 		} else if (currentToken.getTipo() == TokenType.WHILE) {
@@ -191,8 +187,6 @@ public class Parser {
 			parseRetorno();
 		} else if (currentToken.getTipo() == TokenType.ABRE_CHAVES) {
 			parseBloco();
-		} else if (currentToken.getTipo() == TokenType.IDENTIFICADOR) {
-			parseChamadaFuncCmd();
 		} else {
 			/* ? */
 		}
@@ -208,8 +202,8 @@ public class Parser {
 	private void parseIteracao() throws Exception {
 		acceptToken(TokenType.WHILE);
 		acceptToken(TokenType.ABRE_PAR);
-		//parseExpressao();
-		acceptToken(TokenType.ABRE_PAR);
+		parseExpressao();
+		acceptToken(TokenType.FECHA_PAR);
 		parseCommando();
 	}
 	
@@ -250,7 +244,6 @@ public class Parser {
 	}
 	
 	private void parseChamadaFunc() throws Exception {
-		acceptToken(TokenType.IDENTIFICADOR);
 		acceptToken(TokenType.ABRE_PAR);
 		parseListaExprs();
 		acceptToken(TokenType.FECHA_PAR);
@@ -388,10 +381,8 @@ public class Parser {
 			acceptToken();
 			parseExpr();
 			acceptToken(TokenType.FECHA_PAR);
-			
 		} else if (currentToken.getTipo() == TokenType.NUMERO_LITERAL) {
 			acceptToken();
-			
 		} else {
 			throw new Exception("Token inesperado: " + currentToken.getTipo() + ".");
 		}
