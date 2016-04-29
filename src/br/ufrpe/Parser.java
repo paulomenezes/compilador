@@ -265,18 +265,16 @@ public class Parser {
 	}
 	
 	private void parseExpressaoA() throws Exception {
-		parseExpressaoBasica();
+		parseExpressaoB();
 		if (currentToken.getTipo() == TokenType.OR || 
 			currentToken.getTipo() == TokenType.AND) {
 			acceptToken();
-		} else {
-			
-		}
-		parseExpressaoB();
+			parseExpressaoA();
+		} 
 	}
 	
 	private void parseExpressaoB() throws Exception {
-		parseExpressaoBasica();
+		parseExpressaoC();
 		if (currentToken.getTipo() == TokenType.COMPARACAO || 
 			currentToken.getTipo() == TokenType.DIFERENCA || 
 			currentToken.getTipo() == TokenType.MENOR_QUE || 
@@ -284,34 +282,28 @@ public class Parser {
 			currentToken.getTipo() == TokenType.MENOR_IGUAL || 
 			currentToken.getTipo() == TokenType.MAIOR_IGUAL) {
 			acceptToken();
-		} else {
-			
-		}
-		parseExpressaoC();
+			parseExpressaoB();
+		} 
 	}
 	
 	private void parseExpressaoC() throws Exception {
-		parseExpressaoBasica();
+		parseExpressaoD();
 		if (currentToken.getTipo() == TokenType.OP_MAIS || 
 			currentToken.getTipo() == TokenType.OP_MENOS) {
 			acceptToken();
-		} else {
-			
+			parseExpressaoC();
 		}
-		parseExpressaoD();
 	}
 	
 	
 	private void parseExpressaoD() throws Exception {
-		parseExpressaoBasica();
+		parseExpressaoE();
 		if (currentToken.getTipo() == TokenType.OP_MULTIPLICACAO || 
 			currentToken.getTipo() == TokenType.OP_DIVISAO || 
 			currentToken.getTipo() == TokenType.OP_MODULO) {
 			acceptToken();
-		} else {
-			
-		}
-		parseExpressaoE();
+			parseExpressaoD();
+		} 
 	}
 	
 	private void parseExpressaoE() throws Exception {
@@ -319,10 +311,8 @@ public class Parser {
 		if (currentToken.getTipo() == TokenType.NOT || 
 			currentToken.getTipo() == TokenType.OP_MENOS) {
 			acceptToken();
-		} else {
-			
+			parseExpressaoE();
 		}
-		parseExpressaoBasica();
 	}
 	
 	private void parseExpressaoBasica() throws Exception {
@@ -342,49 +332,8 @@ public class Parser {
 				   currentToken.getTipo() == TokenType.CARACTER_LITERAL || 
 				   currentToken.getTipo() == TokenType.IDENTIFICADOR) {
 			acceptToken();
-		} 
-	}
-	
-	/**
-	 *   <expr> ::= <exprBasic> <restExpr>
-	 */
-	private void parseExpr() throws Exception {
-		parseExprBasic();
-		parseRestExpr();
-	}
-
-	/**
-	 *   <restExpr> ::= "+" <expr>
-	 *                | "*" <expr>
-	 *                | --vazio--
-	 */
-	private void parseRestExpr() throws Exception {
-		
-		if (currentToken.getTipo() == TokenType.OP_MAIS) {
-			acceptToken();
-			parseExpr();
-		} else 	if (currentToken.getTipo() == TokenType.OP_MULTIPLICACAO) {
-			acceptToken();
-			parseExpr();
-		} else {
-			/* faz nada */
-			
-		}		
-	}
-	
-	/**
-	 *   <exprBasic> ::= "(" <expr> ")" 
-	 *                 | NUM_LITERAL
-	 */
-	private void parseExprBasic() throws Exception {
-		if (currentToken.getTipo() == TokenType.ABRE_PAR) {
-			acceptToken();
-			parseExpr();
-			acceptToken(TokenType.FECHA_PAR);
-		} else if (currentToken.getTipo() == TokenType.NUMERO_LITERAL) {
-			acceptToken();
-		} else {
-			throw new Exception("Token inesperado: " + currentToken.getTipo() + ".");
+			if (currentToken.getTipo() == TokenType.ABRE_PAR)
+				parseChamadaFunc();
 		}
 	}
 }
