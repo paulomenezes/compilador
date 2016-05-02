@@ -1,18 +1,37 @@
 package br.ufrpe;
 
+import java.util.Hashtable;
+
 public class Lexer {
 	private char[] input;
 	private int nextChar;
 	private int nextIndex;
 	
+	private Hashtable<String, TokenType> keywords = new Hashtable<String, TokenType>();
+		
 	public Lexer() {
 		this.nextChar = -1;
+		
+		keywords.put("if", TokenType.IF);
+		keywords.put("else", TokenType.ELSE);
+		keywords.put("and", TokenType.AND);
+		keywords.put("or", TokenType.OR);
+		keywords.put("not", TokenType.NOT);
+		keywords.put("then", TokenType.THEN);
+		keywords.put("while", TokenType.WHILE);
+		keywords.put("return", TokenType.RETURN);
+		keywords.put("float", TokenType.FLOAT);
+		keywords.put("char", TokenType.CHAR);
+		keywords.put("void", TokenType.VOID);
+		keywords.put("prnt", TokenType.PRNT);
+		keywords.put("int", TokenType.INT);		
 	} 
 	
 	public void reset(String content) {
 		input = content.toCharArray();
 		nextIndex = 0;
-		nextChar = input[nextIndex];
+		if (input.length > 0)
+			nextChar = input[nextIndex];
 	}
 	
 	private void next() {
@@ -47,31 +66,20 @@ public class Lexer {
 				bigValue = true;
 			} while(nextChar >= '0' && nextChar <= '9');
 			tipo = TokenType.NUMERO_LITERAL;
-		} else if ((nextChar >= 97 && nextChar <= 122) ||
-				   (nextChar >= 65 && nextChar <= 90)) {
+		} else if ((nextChar >= 'a' && nextChar <= 'z') ||
+				   (nextChar >= 'A' && nextChar <= 'Z')) {
 			do {
 				lexema += "" + (char)nextChar;
 				next();
 				
 				bigValue = true;
-			} while((nextChar >= 97 && nextChar <= 122) ||
-					(nextChar >= 65 && nextChar <= 90));
+			} while((nextChar >= 'a' && nextChar <= 'z') ||
+					(nextChar >= 'A' && nextChar <= 'Z'));
 			
-			if (lexema.equals("if")) { tipo = TokenType.IF;
-			} else if (lexema.equals("else")) { tipo = TokenType.ELSE;
-			} else if (lexema.equals("and")) { tipo = TokenType.AND;
-			} else if (lexema.equals("or")) { tipo = TokenType.OR;
-			} else if (lexema.equals("not")) { tipo = TokenType.NOT;
-			} else if (lexema.equals("then")) { tipo = TokenType.THEN;
-			} else if (lexema.equals("while")) { tipo = TokenType.WHILE;
-			} else if (lexema.equals("return")) { tipo = TokenType.RETURN;
-			} else if (lexema.equals("float")) { tipo = TokenType.FLOAT;
-			} else if (lexema.equals("char")) { tipo = TokenType.CHAR;
-			} else if (lexema.equals("void")) { tipo = TokenType.VOID;
-			} else if (lexema.equals("prnt")) { tipo = TokenType.PRNT;
-			} else if (lexema.equals("int")) { tipo = TokenType.INT;
+			if (keywords.containsKey(lexema)) {
+				tipo = (TokenType) keywords.get(lexema);
 			} else {
-				tipo = TokenType.IDENTIFICADOR;
+				tipo = TokenType.IDENTIFICADOR; 
 			}
 		} else if (nextChar == '=') { 
 			lexema = "=";

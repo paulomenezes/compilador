@@ -16,7 +16,6 @@ public class Main {
 		
 		do {
 			token = lexer.nextToken();
-			//System.out.println(token);
 		} while (token.getTipo() != TokenType.EOF);
 		
 		Parser parser = new Parser();
