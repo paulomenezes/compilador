@@ -4,6 +4,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import br.ufrpe.tree.Programa;
+
 public class Main {
 	public static void main(String[] args) throws Exception {
 		Token token = null;
@@ -19,8 +21,6 @@ public class Main {
 		} while (token.getTipo() != TokenType.EOF);
 		
 		Parser parser = new Parser();
-		String result = parser.parse(content);
-		
-		System.out.println(result);
+		Programa result = parser.parse(content);
 	}
 }

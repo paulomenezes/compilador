@@ -1,51 +1,17 @@
-void main() {    
-	int n, nRebuilt;
-	n = 51423;  ** numero a ser testado  
-		>> A divisao de inteiros arredonda para baixo (em caso de divisao inexata). 
-		   Assim, numeros impares ficarao com uma unidade a menos do que seu valor inicial. <<
-	nRebuilt = (n / 2) * 2;
-	if n == nRebuilt then       
-		prnt('P', 'A', 'R');    
-	else       
-		prnt('I', 'M', 'P', 'A', 'R');  
-}
+void main() 
+{
+   int n, nRebuilt;
 
-int n, soma;  
-void main() {    
-	n = 9;  ** quantidade de numeros impares positivos  
-   	somaImpares(n);  
-}
+   n = 51423;  ** numero a ser testado
 
-int somaImpares(n : int) {
-	int i, proxImpar, resultado;
-	resultado = 0;
-	i = 0;
-	while (i < n) {
-		proxImpar = 2*i + 1;   ** o i-esimo impar positivo
-		resultado = resultado + proxImpar;
-		i = i + 1;    
-   	}
-   	prnt(resultado);
-   	return resultado;
-}
+   >> A divisao de inteiros arredonda para baixo (em caso 
+      de divisao inexata). Assim, numeros impares ficarao
+      com uma unidade a menos do que seu valor inicial. <<
 
-int mdcEuclides(x : int, y : int) {
-	if (y == 0) then
-		return x;
-	else
-		return mdcEuclides(y, x % y);
-}
+   nRebuilt = (n / 2) * 2;
 
-void main() {
-	int x, y;
-	int m;
-	x = 120; >> dois valores a partir dos quais <<
-	y = 640;  >> sera calculado o m.d.c.         <<
-	m = mdcEuclides(x, y);
-	prnt('m', 'd', 'c', '(');
-	prnt( x );
-	prnt(',');
-	prnt( y );
-	prnt(')', ':');
-	prnt( m );  
+   if n == nRebuilt then
+      prnt('P', 'A', 'R');
+   else
+      prnt('I', 'M', 'P', 'A', 'R');
 }

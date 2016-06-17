@@ -1,6 +1,12 @@
 package br.ufrpe;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
+
+import br.ufrpe.tree.*;
+import br.ufrpe.tree.comando.*;
+import br.ufrpe.tree.expressao.*;
 
 public class Parser {
 
@@ -11,20 +17,17 @@ public class Parser {
 		lexer = new Lexer();
 	}
 
-	public String parse(String content) {
-		String resultado;
+	public Programa parse(String content) {
+		Programa resultado = null;
 
 		try {
 			lexer.reset(content);
 			currentToken = lexer.nextToken(); 
 
-			parseProgram();             
+			resultado = parseProgram();             
 			acceptToken(TokenType.EOF); 
-			
-			resultado = "Ok";
 		} catch (Exception e) {
 			e.printStackTrace();
-			resultado = e.getMessage();
 		}
 		
 		return resultado;
@@ -58,255 +61,385 @@ public class Parser {
 		}
 	}
 	
-	private void parseProgram() throws Exception {
+	private Programa parseProgram() throws Exception {
+		Programa programa = new Programa();
+
 		TokenType[] tipo = { TokenType.INT, TokenType.CHAR, TokenType.FLOAT, TokenType.CARACTER_LITERAL, TokenType.VOID };
 		while (Arrays.asList(tipo).contains(currentToken.getTipo())) {
-			parseDeclGlobal();
+			programa.addLast(parseDeclGlobal());
 		}
+		
+		return programa;
 	}
 	
-	private void parseDeclGlobal() throws Exception {
+	private DeclGlobal parseDeclGlobal() throws Exception {
 		if (currentToken.getTipo() == TokenType.VOID){
 			acceptToken(TokenType.VOID);
+			String id = currentToken.getLexema();
 			acceptToken(TokenType.IDENTIFICADOR);
-			parseDeclFuncao();
+			return parseDeclFuncao(Tipo.VOID, id);
 		} else {
-			parseTipo();
+			Tipo tipo = parseTipo();
+			String id = currentToken.getLexema();
 			acceptToken(TokenType.IDENTIFICADOR);
 			if (currentToken.getTipo() == TokenType.ABRE_PAR) {
-				parseDeclFuncao();
+				return parseDeclFuncao(tipo, id);
 			} else{
-				parseDeclVariavel();
+				return parseDeclVariavel(tipo, id);
 			}
 		}
 	}
 	
-	private void parseDeclVariavel() throws Exception {
-		parseListaIdents();
+	private DeclVariavel parseDeclVariavel(Tipo tipo, String id) throws Exception {
+		LinkedList<String> ids = parseListaIdents();
+		ids.add(id);
+		
 		acceptToken(TokenType.PONTO_VIRGULA);
+		
+		return new DeclVariavel(ids, tipo);
 	}
 	
-	private void parseTipo() {
+	private Tipo parseTipo() {
 		TokenType[] tipo = { TokenType.INT, TokenType.CHAR, TokenType.FLOAT, TokenType.CARACTER_LITERAL };
 		if (Arrays.asList(tipo).contains(currentToken.getTipo())) {
+			Tipo t = null;
+			
+			switch (currentToken.getTipo()) {
+				case INT:
+					t = Tipo.INT;
+					break;
+				case FLOAT:
+					t = Tipo.FLOAT;
+					break;
+				case CARACTER_LITERAL:
+					t = Tipo.STRING;
+					break;
+				default:
+					break;
+			}
+			
 			acceptToken();
+			
+			return t;
 		}
+		
+		return null;
 	}
 	
-	private void parseListaIdents() throws Exception {
+	private LinkedList<String> parseListaIdents() throws Exception {
+		LinkedList<String> ids = new LinkedList<>();
+		
 		while (currentToken.getTipo() == TokenType.VIRGULA) {
 			acceptToken(TokenType.VIRGULA);
+			
+			ids.add(currentToken.getLexema());
 			acceptToken(TokenType.IDENTIFICADOR);
 		}
+		
+		return ids;
 	}
 	
-	private void parseDeclFuncao() throws Exception {
-		parseAssinatura();
-		parseBloco();
+	private DeclFuncao parseDeclFuncao(Tipo tipo, String id) throws Exception {
+		Assinatura assinatura = parseAssinatura(tipo, id);
+		Bloco bloco = parseBloco();
+		
+		return new DeclFuncao(assinatura, bloco);
 	}
 	
-	private void parseAssinatura() throws Exception {
+	private Assinatura parseAssinatura(Tipo tipo, String id) throws Exception {
 		acceptToken(TokenType.ABRE_PAR);
-		parseParamFormais();
+		LinkedList<DeclVariavel> paramFormais = parseParamFormais();
 		acceptToken(TokenType.FECHA_PAR);
+		
+		return new Assinatura(id, paramFormais, tipo);
 	}
 	
-	private void parseParamFormais() throws Exception {
+	private LinkedList<DeclVariavel> parseParamFormais() throws Exception {
+		LinkedList<DeclVariavel> paramFormais = new LinkedList<>();
+		
 		if (currentToken.getTipo() != TokenType.FECHA_PAR) {
+			String id = currentToken.getLexema();
 			acceptToken(TokenType.IDENTIFICADOR);
 			acceptToken(TokenType.DOIS_PONTOS);
-			parseTipo();
+			Tipo tipo = parseTipo();
+			paramFormais.add(new DeclVariavel(id, tipo));
+			
 			while (currentToken.getTipo() == TokenType.VIRGULA) {
 				acceptToken(TokenType.VIRGULA);
+				String id1 = currentToken.getLexema();
 				acceptToken(TokenType.IDENTIFICADOR);
 				acceptToken(TokenType.DOIS_PONTOS);
-				parseTipo();
+				Tipo tipo1 = parseTipo();
+				
+				paramFormais.add(new DeclVariavel(id1, tipo1));
 			}
 		}
+		
+		return paramFormais;
 	}
 	
-	private void parseBloco() throws Exception {
+	private Bloco parseBloco() throws Exception {
 		acceptToken(TokenType.ABRE_CHAVES);
-		parseListaCommandos();
+		ArrayList<Comando> listaCommandos = parseListaCommandos();
 		acceptToken(TokenType.FECHA_CHAVES);
+		
+		return new Bloco(listaCommandos);
 	}
 	
-	private void parseListaCommandos() throws Exception {
-		parseCommando();
+	private ArrayList<Comando> parseListaCommandos() throws Exception {
+		ArrayList<Comando> listaComandos = new ArrayList<>();
+		listaComandos.add(parseCommando());
+		
 		while (currentToken.getTipo() != TokenType.FECHA_CHAVES) {
-			parseCommando();
+			listaComandos.add(parseCommando());
 		}
+		
+		return listaComandos;
 	}
 	
-	private void parseCommando() throws Exception {
+	private Comando parseCommando() throws Exception {
 		TokenType[] tipo = { TokenType.INT, TokenType.CHAR, TokenType.FLOAT, TokenType.CARACTER_LITERAL };
 		if (Arrays.asList(tipo).contains(currentToken.getTipo())) {
-			parseTipo();
+			Tipo t = parseTipo();
+			String id = currentToken.getLexema();
 			acceptToken(TokenType.IDENTIFICADOR);
-			parseDeclVariavel();
+			return parseDeclVariavel(t, id);
 		} else if (currentToken.getTipo() == TokenType.IDENTIFICADOR) {
+			String id = currentToken.getLexema();
 			acceptToken();
 			if(currentToken.getTipo() == TokenType.ABRE_PAR){
-				parseChamadaFuncCmd();
+				return parseChamadaFuncCmd(id);
 			} else {
-				parseAtribuicao();
+				return parseAtribuicao(id);
 			}
 		} else if (currentToken.getTipo() == TokenType.WHILE) {
-			parseIteracao();
+			return parseIteracao();
 		} else if (currentToken.getTipo() == TokenType.IF) {
-			parseDecisao();
+			return parseDecisao();
 		} else if (currentToken.getTipo() == TokenType.PRNT) {
-			parseEscrita();
+			return parseEscrita();
 		} else if (currentToken.getTipo() == TokenType.RETURN) {
-			parseRetorno();
+			return parseRetorno();
 		} else if (currentToken.getTipo() == TokenType.ABRE_CHAVES) {
-			parseBloco();
+			return parseBloco();
 		} else {
 			/* FAZ NADA */
+			return null;
 		}
 	}
 	
-	private void parseAtribuicao() throws Exception {
-		parseListaIdents();
+	private Atribuicao parseAtribuicao(String id) throws Exception {
+		//LinkedList<String> list = parseListaIdents();
 		acceptToken(TokenType.ATRIBUICAO);
-		parseExpressao();
+		Expressao expressao = parseExpressao();
 		acceptToken(TokenType.PONTO_VIRGULA);
+		
+		return new Atribuicao(id, expressao);
 	}
 	
-	private void parseIteracao() throws Exception {
+	private Iteracao parseIteracao() throws Exception {
 		acceptToken(TokenType.WHILE);
 		acceptToken(TokenType.ABRE_PAR);
-		parseExpressao();
+		Expressao expressao = parseExpressao();
 		acceptToken(TokenType.FECHA_PAR);
-		parseCommando();
+		Comando comando = parseCommando();
+		
+		return new Iteracao(expressao, comando);
 	}
 	
-	private void parseDecisao() throws Exception {
-		parseRestoDecisao();
+	private Decisao parseDecisao() throws Exception {
+		Decisao d = parseRestoDecisao();
 		if (currentToken.getTipo() == TokenType.ELSE) {
 			acceptToken(TokenType.ELSE);
-			parseCommando();
+			Comando cmd = parseCommando();
+			
+			d.setCmdElse(cmd);
 		}
+		
+		return d;
 	}
 	
-	private void parseRestoDecisao() throws Exception {
+	private Decisao parseRestoDecisao() throws Exception {
 		acceptToken(TokenType.IF);
-		parseExpressao();
+		Expressao expressao = parseExpressao();
 		acceptToken(TokenType.THEN);
-		parseCommando();
+		Comando comando = parseCommando();
+		
+		return new Decisao(expressao, comando);
 	}
 	
-	private void parseEscrita() throws Exception {
+	private Escrita parseEscrita() throws Exception {
 		acceptToken(TokenType.PRNT);
 		acceptToken(TokenType.ABRE_PAR);
-		parseListaExprs();
+		Escrita escrita = new Escrita(parseListaExprs());
 		acceptToken(TokenType.FECHA_PAR);
 		acceptToken(TokenType.PONTO_VIRGULA);
+		
+		return escrita;
 	}
 	
-	private void parseRetorno() throws Exception {
+	private Retorno parseRetorno() throws Exception {
 		acceptToken(TokenType.RETURN);
-		parseExpressao();
+		Expressao expresao = parseExpressao();
 		acceptToken(TokenType.PONTO_VIRGULA);
+		
+		return new Retorno(expresao);
 	}
 	
-	private void parseChamadaFuncCmd() throws Exception {
-		parseChamadaFunc();
+	private ChamadaFunc parseChamadaFuncCmd(String id) throws Exception {
+		LinkedList<Expressao> listaExprs = parseChamadaFunc();
 		acceptToken(TokenType.PONTO_VIRGULA);
+		
+		return new ChamadaFunc(id, listaExprs);
 	}
 	
-	private void parseChamadaFunc() throws Exception {
+	private LinkedList<Expressao> parseChamadaFunc() throws Exception {
 		acceptToken(TokenType.ABRE_PAR);
-		parseListaExprs();
+		LinkedList<Expressao> listaExprs = parseListaExprs();
 		acceptToken(TokenType.FECHA_PAR);
+		
+		return listaExprs;
 	}
 	
-	private void parseListaExprs() throws Exception {
+	private LinkedList<Expressao> parseListaExprs() throws Exception {
+		LinkedList<Expressao> listaExprs = new LinkedList<>();
+		
 		TokenType[] tipo = { TokenType.ABRE_PAR, TokenType.NOT, TokenType.OP_MENOS, TokenType.NUMERO_LITERAL, TokenType.CARACTER_LITERAL, TokenType.NUMERO_FLUTUANTE, TokenType.IDENTIFICADOR};
 		if (Arrays.asList(tipo).contains(currentToken.getTipo())) {
-			parseExpressao();
+			listaExprs.add(parseExpressao());
 			while (currentToken.getTipo() == TokenType.VIRGULA) {
 				acceptToken();
-				parseExpressao();
+				listaExprs.add(parseExpressao());
 			}
 		}
+		
+		return listaExprs;
 	}
 	
-	private void parseExpressao() throws Exception {
-		parseExpressaoA();
+	private Expressao parseExpressao() throws Exception {
+		return parseExpressaoA();
 	}
 	
-	private void parseExpressaoA() throws Exception {
-		parseExpressaoB();
+	private Expressao parseExpressaoA() throws Exception {
+		Expressao expr1 = parseExpressaoB();
+		Expressao expr2 = null;
+		String tipo = "";
+		
 		if (currentToken.getTipo() == TokenType.OR || 
 			currentToken.getTipo() == TokenType.AND) {
+			tipo = currentToken.getLexema();
+			
 			acceptToken();
-			parseExpressaoA();
+			expr2 = parseExpressaoA();
 		} 
+		
+		return new ExprLogica(expr1, expr2, tipo);
 	}
 	
-	private void parseExpressaoB() throws Exception {
-		parseExpressaoC();
+	private Expressao parseExpressaoB() throws Exception {
+		Expressao expr1 = parseExpressaoC();
+		Expressao expr2 = null;
+		String tipo = "";
+		
 		if (currentToken.getTipo() == TokenType.COMPARACAO || 
 			currentToken.getTipo() == TokenType.DIFERENCA || 
 			currentToken.getTipo() == TokenType.MENOR_QUE || 
 			currentToken.getTipo() == TokenType.MAIOR_QUE || 
 			currentToken.getTipo() == TokenType.MENOR_IGUAL || 
 			currentToken.getTipo() == TokenType.MAIOR_IGUAL) {
+			tipo = currentToken.getLexema();
+			
 			acceptToken();
-			parseExpressaoB();
-		} 
+			expr2 = parseExpressaoB();
+		}  
+		
+		return new ExprLogica(expr1, expr2, tipo);
 	}
 	
-	private void parseExpressaoC() throws Exception {
-		parseExpressaoD();
+	private Expressao parseExpressaoC() throws Exception {
+		Expressao expr1 = parseExpressaoD();
+		Expressao expr2 = null;
+		String tipo = "";
+		
 		if (currentToken.getTipo() == TokenType.OP_MAIS || 
 			currentToken.getTipo() == TokenType.OP_MENOS) {
+			tipo = currentToken.getLexema();
+			
 			acceptToken();
-			parseExpressaoC();
+			expr2 = parseExpressaoC();
 		}
+		
+		return new ExprAritmetica(expr1, expr2, tipo);
 	}
 	
 	
-	private void parseExpressaoD() throws Exception {
-		parseExpressaoE();
+	private Expressao parseExpressaoD() throws Exception {
+		Expressao expr1 = parseExpressaoE();
+		Expressao expr2 = null;
+		String tipo = "";
+		
 		if (currentToken.getTipo() == TokenType.OP_MULTIPLICACAO || 
 			currentToken.getTipo() == TokenType.OP_DIVISAO || 
 			currentToken.getTipo() == TokenType.OP_MODULO) {
+			tipo = currentToken.getLexema();
+			
 			acceptToken();
-			parseExpressaoD();
+			expr2 = parseExpressaoD();
 		} 
+		
+		return new ExprAritmetica(expr1, expr2, tipo);
 	}
 	
-	private void parseExpressaoE() throws Exception {
-		parseExpressaoBasica();
+	private Expressao parseExpressaoE() throws Exception {
+		Expressao expr1 = parseExpressaoBasica();
+		Expressao expr2 = null;
+		String tipo = "";
+		
 		if (currentToken.getTipo() == TokenType.NOT || 
 			currentToken.getTipo() == TokenType.OP_MENOS) {
+			tipo = currentToken.getLexema();
+			
 			acceptToken();
-			parseExpressaoE();
+			expr2 = parseExpressaoE();
 		}
+		
+		return new ExprAritmetica(expr1, expr2, tipo);
 	}
 	
-	private void parseExpressaoBasica() throws Exception {
+	private Expressao parseExpressaoBasica() throws Exception {
 		if (currentToken.getTipo() == TokenType.ABRE_PAR) {
 			acceptToken();
-			parseExpressao();
+			Expressao expressao = parseExpressao();
 			acceptToken(TokenType.FECHA_PAR);
+			
+			return expressao;
 		} else if (currentToken.getTipo() == TokenType.NOT) {
 			acceptToken();
-			parseExpressaoBasica();
+			return new ExpUnaria("not", parseExpressaoBasica());
 		} else if (currentToken.getTipo() == TokenType.OP_MENOS) {
 			acceptToken();
-			parseExpressaoBasica();
-		} else if (currentToken.getTipo() == TokenType.NUMERO_LITERAL || 
-				   currentToken.getTipo() == TokenType.CARACTER_LITERAL || 
-				   currentToken.getTipo() == TokenType.NUMERO_FLUTUANTE || 
-				   currentToken.getTipo() == TokenType.CARACTER_LITERAL || 
-				   currentToken.getTipo() == TokenType.IDENTIFICADOR) {
+			return new ExpUnaria("-", parseExpressaoBasica());
+		} else if (currentToken.getTipo() == TokenType.IDENTIFICADOR) {
+
+			String tipo = currentToken.getLexema();
 			acceptToken();
 
 			if (currentToken.getTipo() == TokenType.ABRE_PAR)
-				parseChamadaFunc();
+				return new ChamadaFunc(tipo, parseChamadaFunc());
+			
+			return new StringLiteral(tipo);
+		} else if (currentToken.getTipo() == TokenType.NUMERO_LITERAL) {
+			int literal = Integer.parseInt(currentToken.getLexema());
+			acceptToken();
+			
+			return new IntLiteral(literal);
+		} else if (currentToken.getTipo() == TokenType.CARACTER_LITERAL) {
+			String literal = currentToken.getLexema();
+			acceptToken();
+			
+			return new StringLiteral(literal);
 		}
+		
+		return null;
 	}
 }
