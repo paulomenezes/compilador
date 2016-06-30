@@ -1,6 +1,8 @@
 package compiler.tree;
 
+import compiler.exceptions.SemanticsException;
+
 public interface DeclGlobal {
-	Boolean verificarSemantica() ;
+	void verificarSemantica() throws SemanticsException ;
 	String gerarCodigoIntermediario(String filename);
 }

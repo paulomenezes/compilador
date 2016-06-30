@@ -1,6 +1,6 @@
 package compiler.tree.comando;
 
-import compiler.tree.Tipo;
+import compiler.exceptions.SemanticsException;
 import compiler.tree.expressao.Expressao;
 
 public class Retorno implements Comando {
@@ -11,8 +11,8 @@ public class Retorno implements Comando {
 	}
 
 	@Override
-	public Boolean verificarSemantica() {
-		return null;
+	public void verificarSemantica() throws SemanticsException {
+		expressao.verificarSemantica();
 	}
 
 	@Override

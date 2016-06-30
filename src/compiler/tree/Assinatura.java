@@ -2,6 +2,7 @@ package compiler.tree;
 
 import java.util.LinkedList;
 
+import compiler.exceptions.SemanticsException;
 import compiler.tabela.Tabela;
 import compiler.tree.comando.DeclVariavel;
 
@@ -22,16 +23,10 @@ public class Assinatura {
 		this.identificador = identificar;
 	}
 
-	public Boolean verificarSemantica() {
+	public void verificarSemantica() throws SemanticsException {
 		Tabela t = Tabela.getInstance();
-		boolean aux = t.addFunc(tipo,identificador);
-		if(aux){
-			for(DeclVariavel dec : paramFormais){
-				aux = dec.verificarSemantica();
-				if(!aux) break;
-			}
-		}
-		return aux;
+		if(!t.addFunc(tipo,identificador)) throw new SemanticsException("Nome da Função já está sendo usada");
+		for(DeclVariavel dec : paramFormais) dec.verificarSemantica();
 	}
 
 	public String gerarCodigoIntermediario(String filename) {

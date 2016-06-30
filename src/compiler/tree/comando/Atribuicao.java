@@ -1,5 +1,7 @@
 package compiler.tree.comando;
 
+import compiler.exceptions.SemanticsException;
+import compiler.tabela.Tabela;
 import compiler.tree.Tipo;
 import compiler.tree.expressao.Expressao;
 
@@ -13,8 +15,12 @@ public class Atribuicao implements Comando {
 	}
 
 	@Override
-	public Boolean verificarSemantica() {
-		return expressao.verificarSemantica();
+	public void verificarSemantica() throws SemanticsException {
+		expressao.verificarSemantica();
+		Tabela ta = Tabela.getInstance();
+		Tipo tipo = ta.getTipo(identificador);
+		if(tipo==null) throw new SemanticsException("Variável não foi instanciada");
+		else if(tipo!=expressao.getTipo()) throw new SemanticsException("Tipo da expressão não corresponde a variável");
 	}
 
 	@Override

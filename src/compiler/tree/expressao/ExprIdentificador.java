@@ -1,5 +1,6 @@
 package compiler.tree.expressao;
 
+import compiler.exceptions.SemanticsException;
 import compiler.tabela.Tabela;
 import compiler.tree.Tipo;
 
@@ -11,8 +12,11 @@ public class ExprIdentificador implements Expressao {
 	}
 
 	@Override
-	public Boolean verificarSemantica() {
-		return null;
+	public void verificarSemantica() throws SemanticsException {
+		Tabela ta = Tabela.getInstance();
+		Tipo t = ta.getTipo(this.identificador);
+		if(t == null) throw new SemanticsException("Variável não instanciada");
+		
 	}
 
 	@Override

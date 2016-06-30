@@ -2,6 +2,8 @@ package compiler.tree.expressao;
 
 import java.util.LinkedList;
 
+import compiler.exceptions.SemanticsException;
+import compiler.tabela.Tabela;
 import compiler.tree.Tipo;
 import compiler.tree.comando.Comando;
 
@@ -15,13 +17,18 @@ public class ChamadaFunc implements Expressao, Comando {
 	}
 	
 	@Override
-	public Boolean verificarSemantica() {
-		return null;
+	public void verificarSemantica() throws SemanticsException {
+		Tabela ta = Tabela.getInstance();
+		Tipo t = ta.getTipof(this.identificador);
+		if(t == null) throw new SemanticsException("Função não foi criada");
+		
+		for(Expressao e : listaExprs) e.verificarSemantica();
 	}
 
 	@Override
 	public Tipo getTipo() {
-		return null;
+		Tabela ta = Tabela.getInstance();
+		return ta.getTipof(this.identificador);
 	}
 	
 	@Override

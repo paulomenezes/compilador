@@ -2,7 +2,7 @@ package compiler.tree.comando;
 
 import java.util.LinkedList;
 
-import compiler.tree.Tipo;
+import compiler.exceptions.SemanticsException;
 import compiler.tree.expressao.Expressao;
 
 public class Escrita implements Comando {
@@ -13,8 +13,8 @@ public class Escrita implements Comando {
 	}
 
 	@Override
-	public Boolean verificarSemantica() {
-		return null;
+	public void verificarSemantica() throws SemanticsException {
+		for(Expressao e : expressao) e.verificarSemantica();
 	}
 
 	@Override

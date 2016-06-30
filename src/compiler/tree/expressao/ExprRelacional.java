@@ -1,5 +1,6 @@
 package compiler.tree.expressao;
 
+import compiler.exceptions.SemanticsException;
 import compiler.tree.Tipo;
 
 public class ExprRelacional implements Expressao {
@@ -15,19 +16,17 @@ public class ExprRelacional implements Expressao {
 	}
 	
 	@Override
-	public Boolean verificarSemantica() {
+	public void verificarSemantica() throws SemanticsException {
+		expr1.verificarSemantica();
+		expr2.verificarSemantica();
+		
 		if(expr1.getTipo()==Tipo.FLOAT || expr1.getTipo()==Tipo.INT){
-			if(expr1.getTipo()!=expr2.getTipo())  return false;
+			if(expr1.getTipo()!=expr2.getTipo())  throw new SemanticsException("Tipo das expressões são diferentes");
 		}
 		else{
-			if((!operador.equals("==") && !operador.equals("!=")) || expr1.getTipo()!=expr2.getTipo()){
-				return false;
-			}
+			if(!operador.equals("==") && !operador.equals("!="))  throw new SemanticsException("Essa operação só suporta Float com Float e Int com Int");
+			if(expr1.getTipo()!=expr2.getTipo()) throw new SemanticsException("Tipo das expressões são diferentes");
 		}
-		
-		boolean aux = expr1.verificarSemantica();
-		if(aux) expr2.verificarSemantica();
-		return aux;
 	}
 
 	@Override

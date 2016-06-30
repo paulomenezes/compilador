@@ -1,5 +1,6 @@
 package compiler.tree.expressao;
 
+import compiler.exceptions.SemanticsException;
 import compiler.tree.Tipo;
 
 public class ExprAritmetica implements Expressao {
@@ -15,22 +16,21 @@ public class ExprAritmetica implements Expressao {
 	}
 
 	@Override
-	public Boolean verificarSemantica() {
+	public void verificarSemantica() throws SemanticsException {
+		exp1.verificarSemantica();
+		exp2.verificarSemantica();
 		if(exp1.getTipo()==Tipo.INT){
-			if(exp2.getTipo()!=Tipo.INT) return false;
+			if(exp2.getTipo()!=Tipo.INT) throw new SemanticsException("Tipo das expressões são diferentes");
 		}
 		else if(exp1.getTipo()==Tipo.FLOAT){
-			if(exp2.getTipo()!=Tipo.FLOAT || operacao.equals("%")) return false;
+			if(exp2.getTipo()!=Tipo.FLOAT) throw new SemanticsException("Tipo das expressões são diferentes");
+			if(operacao.equals("%")) throw new SemanticsException("Float com Float não suporta essa operação");
 		}
 		else if(exp1.getTipo()==Tipo.CHAR){
-			if(exp2.getTipo()!=Tipo.INT || (!operacao.equals("+") && !operacao.equals("-"))) return false;
+			if(exp2.getTipo()!=Tipo.INT) throw new SemanticsException("Expressão Aritmética só suporta Float com Float, Int com Int e Char com Int");
+			if(!operacao.equals("+") && !operacao.equals("-")) throw new SemanticsException("Char com Int não suporta essa operação");
 		}
-		else return false;
-		
-		boolean aux = exp1.verificarSemantica();
-		if(aux) exp2.verificarSemantica();
-		return aux;
-		
+		else throw new SemanticsException("Expressão Aritmética só suporta Float com Float, Int com Int e Char com Int");;		
 	}
 	
 	@Override

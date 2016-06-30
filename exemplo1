@@ -1,4 +1,5 @@
-
+int f;
+int g;
 
 void main() 
 {
@@ -12,8 +13,10 @@ void main()
 
    nRebuilt = (n / 2) * 2;
 
-   if n == nRebuilt then
+   if n == nRebuilt then{
+   		int f;
       prnt('P', 'A', 'R');
+   }		
    else
       prnt('I', 'M', 'P', 'A', 'R');
 

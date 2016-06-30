@@ -3,7 +3,8 @@ package compiler.tree.comando;
 import java.util.ArrayList;
 import java.util.List;
 
-import compiler.tree.Tipo;
+import compiler.exceptions.SemanticsException;
+import compiler.tabela.Tabela;
 
 
 public class Bloco implements Comando {
@@ -22,11 +23,11 @@ public class Bloco implements Comando {
 	}
 
 	@Override
-	public Boolean verificarSemantica() {
-		for(Comando c : comandos){
-			if(!c.verificarSemantica()) return false;
-		}
-		return true;
+	public void verificarSemantica() throws SemanticsException {
+		Tabela t = Tabela.getInstance();
+		t.addEscopo();
+		for(Comando c : comandos) c.verificarSemantica();
+		t.removeEscopo();
 	}
 
 	@Override

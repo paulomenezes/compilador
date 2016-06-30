@@ -5,13 +5,11 @@ import compiler.tree.Tipo;
 public class Declaracao {
 	private Tipo tipo;
 	private String nome;
-	private Object valor;
 	private int escopo;
 	
-	public Declaracao(Tipo tipo, String nome, Object valor, int escopo) {
+	public Declaracao(Tipo tipo, String nome, int escopo) {
 		this.tipo = tipo;
 		this.nome = nome;
-		this.valor = valor;
 		this.escopo = escopo;
 	}
 	
@@ -29,14 +27,6 @@ public class Declaracao {
 	
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-	
-	public Object getValor() {
-		return valor;
-	}
-	
-	public void setValor(Object valor) {
-		this.valor = valor;
 	}
 
 	public int getEscopo() {

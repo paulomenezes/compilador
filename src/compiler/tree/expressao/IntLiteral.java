@@ -10,8 +10,8 @@ public class IntLiteral implements Expressao {
 	}
 	
 	@Override
-	public Boolean verificarSemantica() {
-		return null;
+	public void verificarSemantica() {
+		
 	}
 
 	@Override

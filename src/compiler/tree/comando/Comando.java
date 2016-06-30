@@ -1,8 +1,8 @@
 package compiler.tree.comando;
 
-import compiler.tree.Tipo;
+import compiler.exceptions.SemanticsException;
 
 public interface Comando {
-	Boolean verificarSemantica();
+	void verificarSemantica() throws SemanticsException;
 	String gerarCodigoIntermediario(String filename);
 }

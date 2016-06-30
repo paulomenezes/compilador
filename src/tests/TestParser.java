@@ -26,7 +26,7 @@ public class TestParser {
 		Lexer lexer;   //importem o lexer do projeto de vocês !!!
 		Parser parser;
 		
-        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        /*BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		String arquivo;
 		
 		if (args.length == 0) {
@@ -34,20 +34,21 @@ public class TestParser {
 			arquivo = in.readLine();
 		} else {
 			arquivo = args[0];
-		}		
+		}	*/
 		
 		try {
-			lexer = new Lexer(new FileInputStream(arquivo));
+			lexer = new Lexer(new FileInputStream("exemplo1"));
 			parser = new Parser(lexer);
 
 			Symbol output = parser.parse();
 			
 			Programa p = (Programa) output.value;
+			p.verificarSemantica();
 			
 			System.out.println("Saida: " + p);
 		
 		} catch (Exception e) {
-			System.out.println("Erro");
+			System.out.println(e.getMessage());
 			e.printStackTrace();
 		}
 

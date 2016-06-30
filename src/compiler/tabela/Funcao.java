@@ -1,6 +1,7 @@
 package compiler.tabela;
 
 import java.util.LinkedList;
+import java.util.ListIterator;
 
 import compiler.tree.Tipo;
 
@@ -12,7 +13,7 @@ public class Funcao {
 	
 	public Funcao(Tipo tipo, String nome) {
 		this.list = new LinkedList<Declaracao>();
-		this.escopoAtual = 1;
+		this.escopoAtual = 0;
 		this.tipo = tipo;
 		this.nome = nome;
 	}
@@ -38,9 +39,11 @@ public class Funcao {
 	}
 	
 	public void removeEscopoAtual() {
-		for(Declaracao dec : list){
-			if(dec.getEscopo()==this.getEscopoAtual()) list.remove(dec);
+		LinkedList<Declaracao> list1 = new LinkedList<>();
+		for(int i = 0;i<list.size() ; i++){
+			if(this.list.get(i).getEscopo()==this.getEscopoAtual()) list1.add(list.get(i));
 		}
+		list.removeAll(list1);
 		this.escopoAtual-=1;
 	}
 
@@ -72,18 +75,6 @@ public class Funcao {
 	
 	public String toString(){
 		return this.getNome() + " " + this.getEscopoAtual();
-	}
-	
-	public boolean atribuir(String nome, Object o){
-		for(int i = 0; i < list.size(); i++){
-			Declaracao d =list.get(i);
-			if(d.getNome().equals(nome)) {
-				d.setValor(o);
-				this.getList().set(i, d);
-				return true;
-			}
-		}
-		return false;
 	}
 	
 	public Tipo getTipo(String nome){

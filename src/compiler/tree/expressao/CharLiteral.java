@@ -14,8 +14,8 @@ public class CharLiteral implements Expressao {
 	}
 
 	@Override
-	public Boolean verificarSemantica() {
-		return true;
+	public void verificarSemantica() {
+		
 	}
 
 	@Override

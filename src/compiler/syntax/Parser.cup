@@ -93,7 +93,6 @@ precedence left NOT;     //simbolo de maior precedencia
 
 programa ::= programa:p decl_global:d
 			{: p.addLast(d); RESULT = p ;  :}
-			 
 		  |  /* vazio */
 		  {: RESULT = new Programa();  :}
           ;
@@ -287,19 +286,19 @@ expressao ::= expressao:expr1 SOMA expressao:expr2
         {: RESULT = new ExprRelacional(expr1,expr2,"=="); :}
         
         | expressao:expr1 DIFERENTE_QUE expressao:expr2
-        {: RESULT = new ExprAritmetica(expr1,expr2,"!="); :}
+        {: RESULT = new ExprRelacional(expr1,expr2,"!="); :}
         
         | expressao:expr1 MENOR_QUE expressao:expr2
-        {: RESULT = new ExprAritmetica(expr1,expr2,"<"); :}
+        {: RESULT = new ExprRelacional(expr1,expr2,"<"); :}
         
         | expressao:expr1 MENOR_OU_IGUAL expressao:expr2
-        {: RESULT = new ExprAritmetica(expr1,expr2,"<="); :}
+        {: RESULT = new ExprRelacional(expr1,expr2,"<="); :}
         
         | expressao:expr1 MAIOR_OU_IGUAL expressao:expr2
-        {: RESULT = new ExprAritmetica(expr1,expr2,">="); :}
+        {: RESULT = new ExprRelacional(expr1,expr2,">="); :}
         
         | expressao:expr1 MAIOR_QUE expressao:expr2
-        {: RESULT = new ExprAritmetica(expr1,expr2,">"); :}
+        {: RESULT = new ExprRelacional(expr1,expr2,">"); :}
         
         | expr_basica:expr
 		{: RESULT = expr; :}
@@ -307,7 +306,7 @@ expressao ::= expressao:expr1 SOMA expressao:expr2
 
 
 expr_basica ::= ABRE_PAR expressao:expr FECHA_PAR 
-             {: RESULT : expr; :}
+             {: RESULT = expr; :}
          | NOT expr_basica:expr
          {: RESULT = new ExpUnaria("!",expr); :}
 		

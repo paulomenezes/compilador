@@ -1,5 +1,6 @@
 package compiler.tree.comando;
 
+import compiler.exceptions.SemanticsException;
 import compiler.tabela.Tabela;
 import compiler.tree.Tipo;
 import compiler.tree.expressao.Expressao;
@@ -27,10 +28,12 @@ public class Decisao implements Comando {
 	}
 
 	@Override
-	public Boolean verificarSemantica() {
-		Tabela t = Tabela.getInstance();
-		t.addEscopo();
-		return null;
+	public void verificarSemantica() throws SemanticsException {	
+		expressao.verificarSemantica();
+		if(expressao.getTipo()!=Tipo.BOOLEAN) throw new SemanticsException("Expressão de teste não é Boolean");
+		
+		comandoIf.verificarSemantica();
+		comandoElse.verificarSemantica();
 	}
 
 	@Override

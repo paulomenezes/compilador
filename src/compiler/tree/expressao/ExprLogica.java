@@ -1,5 +1,6 @@
 package compiler.tree.expressao;
 
+import compiler.exceptions.SemanticsException;
 import compiler.tree.Tipo;
 
 public class ExprLogica implements Expressao {
@@ -14,13 +15,18 @@ public class ExprLogica implements Expressao {
 	}
 	
 	@Override
-	public Boolean verificarSemantica() {
-		return null;
+	public void verificarSemantica() throws SemanticsException {
+		exp1.verificarSemantica();
+		exp2.verificarSemantica();
+		
+		if(exp1.getTipo()!= Tipo.BOOLEAN || exp2.getTipo() != Tipo.BOOLEAN){
+			throw new SemanticsException("Expressão aritmética só suporta tipo booleano");
+		}
 	}
 
 	@Override
 	public Tipo getTipo() {
-		return null;
+		return Tipo.BOOLEAN;
 	}
 
 	@Override

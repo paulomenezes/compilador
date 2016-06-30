@@ -1,5 +1,6 @@
 package compiler.tree;
 
+import compiler.exceptions.SemanticsException;
 import compiler.tree.comando.Bloco;
 
 public class DeclFuncao implements DeclGlobal {
@@ -12,10 +13,9 @@ public class DeclFuncao implements DeclGlobal {
 	}
 
 	@Override
-	public Boolean verificarSemantica() {
-		boolean aux = assinatura.verificarSemantica();
-		if(aux) aux = bloco.verificarSemantica();
-		return aux;	
+	public void verificarSemantica() throws SemanticsException {
+		assinatura.verificarSemantica();
+		bloco.verificarSemantica();
 	}
 
 	@Override
