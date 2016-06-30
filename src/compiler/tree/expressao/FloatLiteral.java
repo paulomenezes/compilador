@@ -17,7 +17,7 @@ public class FloatLiteral implements Expressao {
 
 	@Override
 	public Tipo getTipo() {
-		return null;
+		return Tipo.FLOAT;
 	}
 
 

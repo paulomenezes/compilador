@@ -18,7 +18,7 @@ public class StringLiteral implements Expressao {
 
 	@Override
 	public Tipo getTipo() {
-		return null;
+		return Tipo.STRING;
 	}
 
 

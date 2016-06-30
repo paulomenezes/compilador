@@ -14,12 +14,15 @@ public class ExpUnaria implements Expressao {
 	
 	@Override
 	public Boolean verificarSemantica() {
-		return null;
+		if(operacao.equals("-")){
+			if(expr.getTipo()!=Tipo.FLOAT && expr.getTipo()!=Tipo.INT) return false;
+		}
+		return true;
 	}
 
 	@Override
 	public Tipo getTipo() {
-		return null;
+		return expr.getTipo();
 	}
 	
 	

@@ -1,5 +1,6 @@
 package compiler.tree.expressao;
 
+import compiler.tabela.Tabela;
 import compiler.tree.Tipo;
 
 public class ExprIdentificador implements Expressao {
@@ -16,7 +17,8 @@ public class ExprIdentificador implements Expressao {
 
 	@Override
 	public Tipo getTipo() {
-		return null;
+		Tabela t = Tabela.getInstance();
+		return t.getTipo(this.identificador);
 	}
 
 	@Override

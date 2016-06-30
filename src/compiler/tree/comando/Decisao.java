@@ -1,5 +1,6 @@
 package compiler.tree.comando;
 
+import compiler.tabela.Tabela;
 import compiler.tree.Tipo;
 import compiler.tree.expressao.Expressao;
 
@@ -27,6 +28,8 @@ public class Decisao implements Comando {
 
 	@Override
 	public Boolean verificarSemantica() {
+		Tabela t = Tabela.getInstance();
+		t.addEscopo();
 		return null;
 	}
 

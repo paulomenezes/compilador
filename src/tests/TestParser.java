@@ -7,7 +7,9 @@ import java.io.InputStreamReader;
 
 import compiler.syntax.Lexer;
 import compiler.syntax.Parser;
+import compiler.tabela.Tabela;
 import compiler.tree.Programa;
+import compiler.tree.Tipo;
 import java_cup.runtime.Symbol;
 
 

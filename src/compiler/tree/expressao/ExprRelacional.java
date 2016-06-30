@@ -16,12 +16,23 @@ public class ExprRelacional implements Expressao {
 	
 	@Override
 	public Boolean verificarSemantica() {
-		return null;
+		if(expr1.getTipo()==Tipo.FLOAT || expr1.getTipo()==Tipo.INT){
+			if(expr1.getTipo()!=expr2.getTipo())  return false;
+		}
+		else{
+			if((!operador.equals("==") && !operador.equals("!=")) || expr1.getTipo()!=expr2.getTipo()){
+				return false;
+			}
+		}
+		
+		boolean aux = expr1.verificarSemantica();
+		if(aux) expr2.verificarSemantica();
+		return aux;
 	}
 
 	@Override
 	public Tipo getTipo() {
-		return null;
+		return Tipo.BOOLEAN;
 	}
 	
 	@Override

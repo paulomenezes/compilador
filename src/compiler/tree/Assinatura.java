@@ -1,8 +1,8 @@
 package compiler.tree;
 
 import java.util.LinkedList;
-import java.util.List;
 
+import compiler.tabela.Tabela;
 import compiler.tree.comando.DeclVariavel;
 
 public class Assinatura {
@@ -23,7 +23,15 @@ public class Assinatura {
 	}
 
 	public Boolean verificarSemantica() {
-		return null;
+		Tabela t = Tabela.getInstance();
+		boolean aux = t.addFunc(tipo,identificador);
+		if(aux){
+			for(DeclVariavel dec : paramFormais){
+				aux = dec.verificarSemantica();
+				if(!aux) break;
+			}
+		}
+		return aux;
 	}
 
 	public String gerarCodigoIntermediario(String filename) {

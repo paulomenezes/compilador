@@ -14,7 +14,7 @@ public class Atribuicao implements Comando {
 
 	@Override
 	public Boolean verificarSemantica() {
-		return null;
+		return expressao.verificarSemantica();
 	}
 
 	@Override

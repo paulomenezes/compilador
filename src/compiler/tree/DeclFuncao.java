@@ -13,7 +13,9 @@ public class DeclFuncao implements DeclGlobal {
 
 	@Override
 	public Boolean verificarSemantica() {
-		return null;
+		boolean aux = assinatura.verificarSemantica();
+		if(aux) aux = bloco.verificarSemantica();
+		return aux;	
 	}
 
 	@Override

@@ -16,7 +16,7 @@ public class IntLiteral implements Expressao {
 
 	@Override
 	public Tipo getTipo() {
-		return null;
+		return Tipo.INT;
 	}
 
 	@Override
