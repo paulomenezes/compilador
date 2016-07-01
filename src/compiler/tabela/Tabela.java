@@ -6,7 +6,7 @@ import compiler.tree.Tipo;
 
 public class Tabela {
 	private LinkedList<Declaracao> declg;
-	public LinkedList<Funcao> decls;
+	private LinkedList<Funcao> decls;
 	private static Tabela tabela;
 	
 	private Tabela() {
@@ -82,5 +82,17 @@ public class Tabela {
 			if(d.getNome().equals(nome)) return d.getTipo();
 		}
 		return null;
+	}
+	
+	public boolean existsFunc(String nome){
+		for(int i = 0; i < decls.size(); i++){
+			Funcao d = decls.get(i);
+			if(d.getNome().equals(nome)) return true;
+		}
+		return false;
+	}
+	
+	public Tipo getTipoUltima(){
+		return decls.getFirst().getTipo();
 	}
 }

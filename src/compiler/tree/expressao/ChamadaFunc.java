@@ -19,8 +19,8 @@ public class ChamadaFunc implements Expressao, Comando {
 	@Override
 	public void verificarSemantica() throws SemanticsException {
 		Tabela ta = Tabela.getInstance();
-		Tipo t = ta.getTipof(this.identificador);
-		if(t == null) throw new SemanticsException("Função não foi criada");
+		
+		if(!ta.existsFunc(this.identificador)) throw new SemanticsException("Função não foi criada");
 		
 		for(Expressao e : listaExprs) e.verificarSemantica();
 	}

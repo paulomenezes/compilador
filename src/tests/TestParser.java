@@ -45,11 +45,11 @@ public class TestParser {
 			Programa p = (Programa) output.value;
 			p.verificarSemantica();
 			
-			System.out.println("Saida: " + p);
+			System.out.println("Sucesso: " + p);
 		
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			e.printStackTrace();
+			System.err.println(e.getMessage());
+			//e.printStackTrace();
 		}
 
 	}

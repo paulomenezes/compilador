@@ -14,10 +14,20 @@ void main()
    nRebuilt = (n / 2) * 2;
 
    if n == nRebuilt then{
-   		int f;
+   		int n;
       prnt('P', 'A', 'R');
    }		
    else
       prnt('I', 'M', 'P', 'A', 'R');
+}
 
+void extra(){
+	
+}
+
+void outro()
+{
+	int n;
+	n=0;
+	extra();
 }

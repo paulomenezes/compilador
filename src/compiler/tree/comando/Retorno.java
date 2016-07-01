@@ -1,6 +1,7 @@
 package compiler.tree.comando;
 
 import compiler.exceptions.SemanticsException;
+import compiler.tabela.Tabela;
 import compiler.tree.expressao.Expressao;
 
 public class Retorno implements Comando {
@@ -13,6 +14,8 @@ public class Retorno implements Comando {
 	@Override
 	public void verificarSemantica() throws SemanticsException {
 		expressao.verificarSemantica();
+		Tabela t = Tabela.getInstance();
+		if(t.getTipoUltima()!=expressao.getTipo()) throw new SemanticsException("Tipo do retorno diferente do tipo da função");
 	}
 
 	@Override
