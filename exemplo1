@@ -5,7 +5,7 @@ void main()
 {
    int n, nRebuilt;
 
-   n = 51423;  ** numero a ser testado
+   n = 10;  ** numero a ser testado
 
    >> A divisao de inteiros arredonda para baixo (em caso 
       de divisao inexata). Assim, numeros impares ficarao

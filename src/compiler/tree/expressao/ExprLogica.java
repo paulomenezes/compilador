@@ -1,5 +1,7 @@
 package compiler.tree.expressao;
 
+import java.io.PrintWriter;
+
 import compiler.exceptions.SemanticsException;
 import compiler.tree.Tipo;
 
@@ -30,7 +32,12 @@ public class ExprLogica implements Expressao {
 	}
 
 	@Override
-	public String gerarCodigoIntermediario(String filename) {
+	public void gerarCodigoIntermediario(PrintWriter file) {
+		
+	}
+
+	@Override
+	public Number getValor() {
 		return null;
 	}
 

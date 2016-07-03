@@ -1,8 +1,10 @@
 package compiler.tree.comando;
 
+import java.io.PrintWriter;
+
 import compiler.exceptions.SemanticsException;
 
 public interface Comando {
 	void verificarSemantica() throws SemanticsException;
-	String gerarCodigoIntermediario(String filename);
+	void gerarCodigoIntermediario(PrintWriter file);
 }

@@ -1,5 +1,7 @@
 package compiler.tree.expressao;
 
+import java.io.PrintWriter;
+
 import compiler.tree.Tipo;
 
 public class StringLiteral implements Expressao {
@@ -23,7 +25,12 @@ public class StringLiteral implements Expressao {
 
 
 	@Override
-	public String gerarCodigoIntermediario(String filename) {
+	public void gerarCodigoIntermediario(PrintWriter file) {
+		
+	}
+
+	@Override
+	public Number getValor() {
 		return null;
 	}
 }

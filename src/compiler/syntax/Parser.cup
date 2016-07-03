@@ -244,7 +244,7 @@ chamada_func ::= IDENTIFICADOR:ident ABRE_PAR lista_exprs:exprs FECHA_PAR
 
 			
 lista_exprs ::= expressao:expr resto_lista_exprs:exprs
-				{: exprs.add(expr);
+				{: exprs.addFirst(expr);
 					RESULT = exprs; :}
               | /*vazio*/
 			  {: RESULT = new LinkedList<Expressao>(); :}
@@ -253,7 +253,7 @@ lista_exprs ::= expressao:expr resto_lista_exprs:exprs
 			
 			
 resto_lista_exprs ::= resto_lista_exprs:exprs VIRGULA expressao:expr
-					  {: exprs.add(expr);
+					  {: exprs.addLast(expr);
 							RESULT = exprs; :}
                     | /*vazio*/
 					{: RESULT = new LinkedList<Expressao>(); :}

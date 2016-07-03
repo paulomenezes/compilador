@@ -1,5 +1,7 @@
 package compiler.tree.expressao;
 
+import java.io.PrintWriter;
+
 import compiler.exceptions.SemanticsException;
 import compiler.tree.Tipo;
 
@@ -24,11 +26,14 @@ public class ExpUnaria implements Expressao {
 	@Override
 	public Tipo getTipo() {
 		return expr.getTipo();
+	}	
+	
+	public void gerarCodigoIntermediario(PrintWriter file) {
+		
 	}
-	
-	
-	
-	public String gerarCodigoIntermediario(String filename) {
-		return null;
+
+	@Override
+	public Number getValor() {
+		return expr.getValor();
 	}
 }

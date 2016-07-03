@@ -1,5 +1,6 @@
 package compiler.tree.expressao;
 
+import java.io.PrintWriter;
 import java.util.LinkedList;
 
 import compiler.exceptions.SemanticsException;
@@ -32,7 +33,13 @@ public class ChamadaFunc implements Expressao, Comando {
 	}
 	
 	@Override
-	public String gerarCodigoIntermediario(String filename) {
+	public void gerarCodigoIntermediario(PrintWriter file) {
+		
+	}
+
+	@Override
+	public Number getValor() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 }

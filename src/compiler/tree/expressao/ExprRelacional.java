@@ -1,5 +1,7 @@
 package compiler.tree.expressao;
 
+import java.io.PrintWriter;
+
 import compiler.exceptions.SemanticsException;
 import compiler.tree.Tipo;
 
@@ -35,7 +37,13 @@ public class ExprRelacional implements Expressao {
 	}
 	
 	@Override
-	public String gerarCodigoIntermediario(String filename) {
+	public void gerarCodigoIntermediario(PrintWriter file) {
+		expr1.gerarCodigoIntermediario(file);
+		expr2.gerarCodigoIntermediario(file);
+	}
+
+	@Override
+	public Number getValor() {
 		return null;
 	}
 

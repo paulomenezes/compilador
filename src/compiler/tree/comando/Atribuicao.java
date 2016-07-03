@@ -1,14 +1,17 @@
 package compiler.tree.comando;
 
+import java.io.PrintWriter;
+
 import compiler.exceptions.SemanticsException;
 import compiler.tabela.Tabela;
+import compiler.tree.Programa;
 import compiler.tree.Tipo;
 import compiler.tree.expressao.Expressao;
 
 public class Atribuicao implements Comando {
 	private String identificador;
 	private Expressao expressao;
-
+	
 	public Atribuicao(String ident, Expressao expressao) {
 		this.identificador = ident;
 		this.expressao = expressao;
@@ -24,8 +27,19 @@ public class Atribuicao implements Comando {
 	}
 
 	@Override
-	public String gerarCodigoIntermediario(String filename) {
-		return null;
+	public void gerarCodigoIntermediario(PrintWriter file) {
+		expressao.gerarCodigoIntermediario(file);
+		
+		if (!Programa.Variaveis.containsKey(identificador)) {
+			Programa.Variaveis.put(identificador, Programa.STACK_INDEX);	
+			
+			file.println("\tistore " + Programa.STACK_INDEX + "  ; salva " + identificador);
+			
+			Programa.STACK_INDEX++;
+		} else {
+			file.println("\tistore " + Programa.Variaveis.get(identificador));
+		}
+		
+		file.println();
 	}
-
 }

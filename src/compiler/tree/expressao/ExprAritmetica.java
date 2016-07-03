@@ -1,5 +1,7 @@
 package compiler.tree.expressao;
 
+import java.io.PrintWriter;
+
 import compiler.exceptions.SemanticsException;
 import compiler.tree.Tipo;
 
@@ -39,8 +41,42 @@ public class ExprAritmetica implements Expressao {
 	}
 
 	@Override
-	public String gerarCodigoIntermediario(String filename) {
-		return null;
+	public void gerarCodigoIntermediario(PrintWriter file) {
+		exp1.gerarCodigoIntermediario(file);
+		exp2.gerarCodigoIntermediario(file);
+
+		switch (operacao) {
+			case "+":
+				file.println("\tiadd\n");
+				break;
+			case "-":
+				file.println("\tisub\n");
+				break;
+			case "*":
+				file.println("\timul\n");
+				break;
+			case "/":
+				file.println("\tidiv\n");
+				break;
+		} 
+	}
+
+	@Override
+	public Number getValor() {
+		switch (operacao) {
+			case "+":
+					return exp1.getValor().floatValue() + exp2.getValor().floatValue();
+			case "-":
+					return exp1.getValor().floatValue() - exp2.getValor().floatValue();
+			case "*":
+					return exp1.getValor().floatValue() * exp2.getValor().floatValue();
+			case "/":
+					return exp1.getValor().floatValue() / exp2.getValor().floatValue();
+			case "%":
+					return exp1.getValor().floatValue() % exp2.getValor().floatValue();
+			default:
+				return exp1.getValor();
+		}
 	}
 
 }

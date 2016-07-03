@@ -1,5 +1,7 @@
 package compiler.tree.comando;
 
+import java.io.PrintWriter;
+
 import compiler.exceptions.SemanticsException;
 import compiler.tabela.Tabela;
 import compiler.tree.Tipo;
@@ -37,8 +39,16 @@ public class Decisao implements Comando {
 	}
 
 	@Override
-	public String gerarCodigoIntermediario(String filename) {
-		return null;
+	public void gerarCodigoIntermediario(PrintWriter file) {
+		expressao.gerarCodigoIntermediario(file);
+		file.println("\tif_icmpeq parteElse\n");
+		comandoIf.gerarCodigoIntermediario(file);
+		file.println("\tgoto parteDepois");
+		file.println();
+		file.println("\tparteElse:");
+		comandoElse.gerarCodigoIntermediario(file);
+		file.println();
+		file.println("\tparteDepois:");
 	}
 
 }

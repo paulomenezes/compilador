@@ -1,5 +1,7 @@
 package compiler.tree.comando;
 
+import java.io.PrintWriter;
+
 import compiler.exceptions.SemanticsException;
 import compiler.tabela.Tabela;
 import compiler.tree.expressao.Expressao;
@@ -19,8 +21,8 @@ public class Retorno implements Comando {
 	}
 
 	@Override
-	public String gerarCodigoIntermediario(String filename) {
-		return null;
+	public void gerarCodigoIntermediario(PrintWriter file) {
+		
 	}
 
 }

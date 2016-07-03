@@ -1,10 +1,12 @@
 package compiler.tree.comando;
 
+import java.io.PrintWriter;
 import java.util.LinkedList;
 
 import compiler.exceptions.SemanticsException;
 import compiler.tabela.Tabela;
 import compiler.tree.DeclGlobal;
+import compiler.tree.Programa;
 import compiler.tree.Tipo;
 
 public class DeclVariavel implements Comando, DeclGlobal {
@@ -39,8 +41,7 @@ public class DeclVariavel implements Comando, DeclGlobal {
 	}
 
 	@Override
-	public String gerarCodigoIntermediario(String filename) {
-		return null;
+	public void gerarCodigoIntermediario(PrintWriter file) {
+		
 	}
-
 }

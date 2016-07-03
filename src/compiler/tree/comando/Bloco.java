@@ -1,5 +1,6 @@
 package compiler.tree.comando;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +32,9 @@ public class Bloco implements Comando {
 	}
 
 	@Override
-	public String gerarCodigoIntermediario(String filename) {
-		return null;
+	public void gerarCodigoIntermediario(PrintWriter file) {
+		for (Comando comando : comandos) {
+			comando.gerarCodigoIntermediario(file);
+		}
 	}
 }

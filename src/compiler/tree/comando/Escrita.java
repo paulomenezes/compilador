@@ -1,5 +1,6 @@
 package compiler.tree.comando;
 
+import java.io.PrintWriter;
 import java.util.LinkedList;
 
 import compiler.exceptions.SemanticsException;
@@ -18,7 +19,13 @@ public class Escrita implements Comando {
 	}
 
 	@Override
-	public String gerarCodigoIntermediario(String filename) {
-		return null;
+	public void gerarCodigoIntermediario(PrintWriter file) {
+		file.println("\tgetstatic java/lang/System/out Ljava/io/PrintStream;");
+		file.print("\tldc \"");
+		for (Expressao expressao2 : expressao) {
+			expressao2.gerarCodigoIntermediario(file);
+		}
+		file.println("\"");
+	    file.println("\tinvokevirtual java/io/PrintStream/println(Ljava/lang/String;)V");
 	}
 }

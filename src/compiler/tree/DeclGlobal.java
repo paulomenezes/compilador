@@ -1,8 +1,10 @@
 package compiler.tree;
 
+import java.io.PrintWriter;
+
 import compiler.exceptions.SemanticsException;
 
 public interface DeclGlobal {
 	void verificarSemantica() throws SemanticsException ;
-	String gerarCodigoIntermediario(String filename);
+	void gerarCodigoIntermediario(PrintWriter file);
 }

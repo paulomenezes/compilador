@@ -1,10 +1,14 @@
 package compiler.tree.expressao;
 
+import java.io.PrintWriter;
+
 import compiler.exceptions.SemanticsException;
 import compiler.tree.Tipo;
 
 public interface Expressao {
 	void verificarSemantica() throws SemanticsException;
 	Tipo getTipo();
-	String gerarCodigoIntermediario(String filename);
+	void gerarCodigoIntermediario(PrintWriter file);
+	
+	Number getValor();
 }

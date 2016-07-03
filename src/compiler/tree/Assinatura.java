@@ -32,4 +32,8 @@ public class Assinatura {
 	public String gerarCodigoIntermediario(String filename) {
 		return null;
 	}
+	
+	public String getIdentificador() {
+		return identificador;
+	}
 }

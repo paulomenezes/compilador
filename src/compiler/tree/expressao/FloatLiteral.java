@@ -1,5 +1,7 @@
 package compiler.tree.expressao;
 
+import java.io.PrintWriter;
+
 import compiler.tree.Tipo;
 
 public class FloatLiteral implements Expressao {
@@ -22,7 +24,13 @@ public class FloatLiteral implements Expressao {
 
 
 	@Override
-	public String gerarCodigoIntermediario(String filename) {
-		return null;
+	public void gerarCodigoIntermediario(PrintWriter file) {
+		
+	}
+
+
+	@Override
+	public Number getValor() {
+		return floatLiteral;
 	}
 }
