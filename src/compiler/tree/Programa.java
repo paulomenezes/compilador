@@ -11,7 +11,7 @@ public class Programa {
 	private LinkedList<DeclGlobal> declaracoes;
 	
 	public static Map<String, Integer> Variaveis = new HashMap<String, Integer>();
-	public static int STACK_INDEX = 0;
+	public static int STACK_INDEX = 1;
 
 	public Programa() throws SemanticsException {
 		declaracoes = new LinkedList<DeclGlobal>();
