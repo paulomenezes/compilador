@@ -11,15 +11,10 @@
 	.limit locals 10
 	.limit stack 10
 
-	bipush 11
+	bipush 10
 	istore 1  ; salva n
 
 	iload 1  ; carrega n
-	getstatic java/lang/System/out Ljava/io/PrintStream;
-	swap
-	invokevirtual java/io/PrintStream/println(I)V
-	iload 1  ; carrega n
-
 	bipush 2
 	idiv
 
@@ -29,39 +24,13 @@
 	istore 2  ; salva nRebuilt
 
 	iload 1  ; carrega n
-	getstatic java/lang/System/out Ljava/io/PrintStream;
-	swap
-	invokevirtual java/io/PrintStream/println(I)V
-
 	iload 2  ; carrega nRebuilt
-	getstatic java/lang/System/out Ljava/io/PrintStream;
-	swap
-	invokevirtual java/io/PrintStream/println(I)V
-
-
-	iload 1  ; carrega n
-	iload 2  ; carrega nRebuilt
-
-	isub
-	istore 3
-
-	iload 3
-	getstatic java/lang/System/out Ljava/io/PrintStream;
-	swap
-	invokevirtual java/io/PrintStream/println(I)V
-	iload 3
-
-	ifeq parteElse
+	if_icmpeq parteDepois
 
 	getstatic java/lang/System/out Ljava/io/PrintStream;
 	ldc "PAR"
 	invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
 	goto parteDepois
-
-	parteElse:
-	getstatic java/lang/System/out Ljava/io/PrintStream;
-	ldc "IMPAR"
-	invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
 
 	parteDepois:
 	return

@@ -46,5 +46,9 @@ public class ExprRelacional implements Expressao {
 	public Number getValor() {
 		return null;
 	}
+	
+	public String getOperador() {
+		return operador;
+	}
 
 }

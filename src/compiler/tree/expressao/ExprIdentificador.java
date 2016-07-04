@@ -31,12 +31,6 @@ public class ExprIdentificador implements Expressao {
 	@Override
 	public void gerarCodigoIntermediario(PrintWriter file) {
 		file.println("\tiload " + Programa.Variaveis.get(identificador) + "  ; carrega " + identificador);
-		
-		file.println("\tgetstatic java/lang/System/out Ljava/io/PrintStream;");
-		file.println("\tswap");
-	    file.println("\tinvokevirtual java/io/PrintStream/println(I)V");
-	    
-	    file.println("\tiload " + Programa.Variaveis.get(identificador) + "  ; carrega " + identificador + "\n");
 	}
 
 	@Override
