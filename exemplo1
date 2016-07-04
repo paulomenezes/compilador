@@ -15,7 +15,7 @@ void main()
 
    if n == nRebuilt then{
    		int n;
-      prnt('P', 'A', 'R');
+      prnt('P', 'A', 'R', 1 * 2);
    }		
    else
       prnt('I', 'M', 'P', 'A', 'R');

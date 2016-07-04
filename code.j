@@ -28,13 +28,38 @@
 	if_icmpne parteElse
 
 	getstatic java/lang/System/out Ljava/io/PrintStream;
-	ldc "PAR"
+	ldc "P"
 	invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
+	getstatic java/lang/System/out Ljava/io/PrintStream;
+	ldc "A"
+	invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
+	getstatic java/lang/System/out Ljava/io/PrintStream;
+	ldc "R"
+	invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
+	bipush 1
+	bipush 2
+	imul
+
+	getstatic java/lang/System/out Ljava/io/PrintStream;
+	swap
+	invokevirtual java/io/PrintStream/println(I)V
 	goto parteDepois
 
 	parteElse:
 	getstatic java/lang/System/out Ljava/io/PrintStream;
-	ldc "IMPAR"
+	ldc "I"
+	invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
+	getstatic java/lang/System/out Ljava/io/PrintStream;
+	ldc "M"
+	invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
+	getstatic java/lang/System/out Ljava/io/PrintStream;
+	ldc "P"
+	invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
+	getstatic java/lang/System/out Ljava/io/PrintStream;
+	ldc "A"
+	invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
+	getstatic java/lang/System/out Ljava/io/PrintStream;
+	ldc "R"
 	invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
 
 	parteDepois:

@@ -4,7 +4,9 @@ import java.io.PrintWriter;
 import java.util.LinkedList;
 
 import compiler.exceptions.SemanticsException;
+import compiler.tree.expressao.CharLiteral;
 import compiler.tree.expressao.Expressao;
+import compiler.tree.expressao.IntLiteral;
 
 public class Escrita implements Comando {
 	private LinkedList<Expressao> expressao;
@@ -20,12 +22,14 @@ public class Escrita implements Comando {
 
 	@Override
 	public void gerarCodigoIntermediario(PrintWriter file) {
-		file.println("\tgetstatic java/lang/System/out Ljava/io/PrintStream;");
-		file.print("\tldc \"");
-		for (Expressao expressao2 : expressao) {
-			expressao2.gerarCodigoIntermediario(file);
+		for (Expressao expr : expressao) {
+			expr.gerarCodigoIntermediario(file);
+			
+			if (!(expr instanceof CharLiteral)) {
+				file.println("\tgetstatic java/lang/System/out Ljava/io/PrintStream;");
+				file.println("\tswap");
+				file.println("\tinvokevirtual java/io/PrintStream/println(I)V");
+			}
 		}
-		file.println("\"");
-	    file.println("\tinvokevirtual java/io/PrintStream/println(Ljava/lang/String;)V");
 	}
 }

@@ -22,6 +22,9 @@ public class CharLiteral implements Expressao {
 
 	@Override
 	public void gerarCodigoIntermediario(PrintWriter file) {
-		file.print(charLiteral.replace("'", ""));
+		file.println("\tgetstatic java/lang/System/out Ljava/io/PrintStream;");
+		file.print("\tldc \"");
+		file.println(charLiteral.replace("'", "") + "\"");
+		file.println("\tinvokevirtual java/io/PrintStream/println(Ljava/lang/String;)V");
 	}
 }
