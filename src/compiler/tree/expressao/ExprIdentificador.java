@@ -32,10 +32,4 @@ public class ExprIdentificador implements Expressao {
 	public void gerarCodigoIntermediario(PrintWriter file) {
 		file.println("\tiload " + Programa.Variaveis.get(identificador) + "  ; carrega " + identificador);
 	}
-
-	@Override
-	public Number getValor() {
-		return null;
-	}
-
 }

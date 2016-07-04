@@ -9,6 +9,4 @@ public interface Expressao {
 	void verificarSemantica() throws SemanticsException;
 	Tipo getTipo();
 	void gerarCodigoIntermediario(PrintWriter file);
-	
-	Number getValor();
 }

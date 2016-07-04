@@ -25,12 +25,17 @@
 
 	iload 1  ; carrega n
 	iload 2  ; carrega nRebuilt
-	if_icmpeq parteDepois
+	if_icmpne parteElse
 
 	getstatic java/lang/System/out Ljava/io/PrintStream;
 	ldc "PAR"
 	invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
 	goto parteDepois
+
+	parteElse:
+	getstatic java/lang/System/out Ljava/io/PrintStream;
+	ldc "IMPAR"
+	invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
 
 	parteDepois:
 	return

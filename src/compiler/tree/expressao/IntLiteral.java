@@ -25,9 +25,4 @@ public class IntLiteral implements Expressao {
 	public void gerarCodigoIntermediario(PrintWriter file) {
 		file.println("\tbipush " + intLiteral);
 	}
-
-	@Override
-	public Number getValor() {
-		return intLiteral;
-	}
 }

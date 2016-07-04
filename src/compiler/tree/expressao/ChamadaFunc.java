@@ -36,10 +36,4 @@ public class ChamadaFunc implements Expressao, Comando {
 	public void gerarCodigoIntermediario(PrintWriter file) {
 		
 	}
-
-	@Override
-	public Number getValor() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

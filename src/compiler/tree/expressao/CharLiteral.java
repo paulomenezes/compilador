@@ -24,10 +24,4 @@ public class CharLiteral implements Expressao {
 	public void gerarCodigoIntermediario(PrintWriter file) {
 		file.print(charLiteral.replace("'", ""));
 	}
-
-	@Override
-	public Number getValor() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

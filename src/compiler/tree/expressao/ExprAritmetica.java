@@ -60,23 +60,4 @@ public class ExprAritmetica implements Expressao {
 				break;
 		} 
 	}
-
-	@Override
-	public Number getValor() {
-		switch (operacao) {
-			case "+":
-					return exp1.getValor().floatValue() + exp2.getValor().floatValue();
-			case "-":
-					return exp1.getValor().floatValue() - exp2.getValor().floatValue();
-			case "*":
-					return exp1.getValor().floatValue() * exp2.getValor().floatValue();
-			case "/":
-					return exp1.getValor().floatValue() / exp2.getValor().floatValue();
-			case "%":
-					return exp1.getValor().floatValue() % exp2.getValor().floatValue();
-			default:
-				return exp1.getValor();
-		}
-	}
-
 }

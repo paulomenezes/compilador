@@ -31,9 +31,4 @@ public class ExpUnaria implements Expressao {
 	public void gerarCodigoIntermediario(PrintWriter file) {
 		
 	}
-
-	@Override
-	public Number getValor() {
-		return expr.getValor();
-	}
 }

@@ -41,11 +41,6 @@ public class ExprRelacional implements Expressao {
 		expr1.gerarCodigoIntermediario(file);
 		expr2.gerarCodigoIntermediario(file);
 	}
-
-	@Override
-	public Number getValor() {
-		return null;
-	}
 	
 	public String getOperador() {
 		return operador;

@@ -27,10 +27,4 @@ public class FloatLiteral implements Expressao {
 	public void gerarCodigoIntermediario(PrintWriter file) {
 		
 	}
-
-
-	@Override
-	public Number getValor() {
-		return floatLiteral;
-	}
 }
