@@ -3,7 +3,6 @@ package compiler.tree.comando;
 import java.io.PrintWriter;
 
 import compiler.exceptions.SemanticsException;
-import compiler.tabela.Tabela;
 import compiler.tree.Tipo;
 import compiler.tree.expressao.ExprRelacional;
 import compiler.tree.expressao.Expressao;

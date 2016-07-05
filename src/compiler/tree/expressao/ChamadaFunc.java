@@ -34,6 +34,10 @@ public class ChamadaFunc implements Expressao, Comando {
 	
 	@Override
 	public void gerarCodigoIntermediario(PrintWriter file) {
+		for (Expressao expressao : listaExprs) {
+			expressao.gerarCodigoIntermediario(file);
+		}
 		
+		file.println("\tinvokevirtual YeledClass/" + identificador + "()V");
 	}
 }

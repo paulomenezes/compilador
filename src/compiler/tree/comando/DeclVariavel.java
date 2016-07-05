@@ -6,7 +6,6 @@ import java.util.LinkedList;
 import compiler.exceptions.SemanticsException;
 import compiler.tabela.Tabela;
 import compiler.tree.DeclGlobal;
-import compiler.tree.Programa;
 import compiler.tree.Tipo;
 
 public class DeclVariavel implements Comando, DeclGlobal {

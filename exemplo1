@@ -1,6 +1,16 @@
 int f;
 int g;
 
+void extra(){
+   prnt(10);
+}
+
+void outro()
+{
+   extra();
+}
+
+
 void main() 
 {
    int n, nRebuilt;
@@ -19,15 +29,6 @@ void main()
    }		
    else
       prnt('I', 'M', 'P', 'A', 'R');
-}
 
-void extra(){
-	
-}
-
-void outro()
-{
-	int n;
-	n=0;
-	extra();
+   outro();
 }

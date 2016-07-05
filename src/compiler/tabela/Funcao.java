@@ -1,7 +1,6 @@
 package compiler.tabela;
 
 import java.util.LinkedList;
-import java.util.ListIterator;
 
 import compiler.tree.Tipo;
 

@@ -6,7 +6,6 @@ import java.util.LinkedList;
 import compiler.exceptions.SemanticsException;
 import compiler.tree.expressao.CharLiteral;
 import compiler.tree.expressao.Expressao;
-import compiler.tree.expressao.IntLiteral;
 
 public class Escrita implements Comando {
 	private LinkedList<Expressao> expressao;

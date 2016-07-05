@@ -22,7 +22,7 @@ public class Retorno implements Comando {
 
 	@Override
 	public void gerarCodigoIntermediario(PrintWriter file) {
-		
+		file.println("\tireturn");
 	}
 
 }

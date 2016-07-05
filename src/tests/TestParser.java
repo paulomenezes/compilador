@@ -1,16 +1,12 @@
 package tests;
 
-import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
 import compiler.syntax.Lexer;
 import compiler.syntax.Parser;
-import compiler.tabela.Tabela;
 import compiler.tree.Programa;
-import compiler.tree.Tipo;
 import java_cup.runtime.Symbol;
 
 

@@ -7,6 +7,25 @@
 	return
 .end method
 
+.method public static extra()V
+	.limit locals 10
+	.limit stack 10
+
+	bipush 10
+	getstatic java/lang/System/out Ljava/io/PrintStream;
+	swap
+	invokevirtual java/io/PrintStream/println(I)V
+	return
+.end method
+
+.method public static outro()V
+	.limit locals 10
+	.limit stack 10
+
+	invokevirtual YeledClass/extra()V
+	return
+.end method
+
 .method public static main([Ljava/lang/String;)V
 	.limit locals 10
 	.limit stack 10
@@ -63,23 +82,7 @@
 	invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
 
 	parteDepois:
-	return
-.end method
-
-.method public static extra([Ljava/lang/String;)V
-	.limit locals 10
-	.limit stack 10
-
-	return
-.end method
-
-.method public static outro([Ljava/lang/String;)V
-	.limit locals 10
-	.limit stack 10
-
-	bipush 0
-	istore 1
-
+	invokevirtual YeledClass/outro()V
 	return
 .end method
 
