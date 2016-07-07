@@ -4,13 +4,16 @@ import java.io.PrintWriter;
 import java.util.LinkedList;
 
 import compiler.exceptions.SemanticsException;
+import compiler.tabela.Declaracao;
 import compiler.tabela.Tabela;
 import compiler.tree.DeclGlobal;
+import compiler.tree.Programa;
 import compiler.tree.Tipo;
 
 public class DeclVariavel implements Comando, DeclGlobal {
 	private LinkedList<String> idents;
 	private Tipo tipo;
+	public static boolean GLOBAL = false;
 
 	public DeclVariavel() {
 		this.idents = new LinkedList<String>();
@@ -41,6 +44,13 @@ public class DeclVariavel implements Comando, DeclGlobal {
 
 	@Override
 	public void gerarCodigoIntermediario(PrintWriter file) {
-		
+		for (String nome : idents) {
+			if (GLOBAL) {
+				file.println(".field private static " + nome + " I");
+				Programa.Variaveis.add(new Declaracao(Tipo.INT, nome, 0));
+			} else {
+				Programa.Variaveis.add(new Declaracao(Tipo.INT, nome, 1));
+			}
+		}
 	}
 }

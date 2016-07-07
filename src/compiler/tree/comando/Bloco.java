@@ -34,6 +34,7 @@ public class Bloco implements Comando {
 	@Override
 	public void gerarCodigoIntermediario(PrintWriter file) {
 		for (Comando comando : comandos) {
+			DeclVariavel.GLOBAL = false;
 			comando.gerarCodigoIntermediario(file);
 		}
 	}

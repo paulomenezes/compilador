@@ -3,6 +3,7 @@ package compiler.tree.comando;
 import java.io.PrintWriter;
 
 import compiler.exceptions.SemanticsException;
+import compiler.tabela.Declaracao;
 import compiler.tabela.Tabela;
 import compiler.tree.Programa;
 import compiler.tree.Tipo;
@@ -30,15 +31,21 @@ public class Atribuicao implements Comando {
 	public void gerarCodigoIntermediario(PrintWriter file) {
 		expressao.gerarCodigoIntermediario(file);
 		
-		if (!Programa.Variaveis.containsKey(identificador)) {
-			Programa.Variaveis.put(identificador, Programa.STACK_INDEX);	
-			
-			file.println("\tistore " + Programa.STACK_INDEX + "  ; salva " + identificador);
-			
-			Programa.STACK_INDEX++;
-		} else {
-			file.println("\tistore " + Programa.Variaveis.get(identificador));
+		//if (!Programa.Variaveis.containsKey(identificador)) {
+			//Programa.Variaveis.put(identificador, Programa.STACK_INDEX);	
+		for (Declaracao declaracao : Programa.Variaveis) {
+			if (declaracao.getNome().equals(identificador)) {
+				if (declaracao.getEscopo() == 1) 
+					file.println("\tistore " + declaracao.getMemoria() + "  ; salva " + identificador);
+				else
+					file.println("\tputstatic YeledClass/" + identificador + " I ; salva global " + identificador);
+			}
 		}
+			
+			//Programa.STACK_INDEX++;
+		//} else {
+		//	file.println("\tistore " + Programa.Variaveis.get(identificador));
+		//}
 		
 		file.println();
 	}

@@ -1,6 +1,9 @@
 .class public YeledClass
 .super java/lang/Object
 
+.field private static f I
+.field private static g I
+
 .method public <init>()V
 	aload_0
 	invokenonvirtual java/lang/Object/<init>()V
@@ -22,7 +25,7 @@
 	.limit locals 10
 	.limit stack 10
 
-	invokevirtual YeledClass/extra()V
+	invokestatic YeledClass/extra()V
 	return
 .end method
 
@@ -31,19 +34,28 @@
 	.limit stack 10
 
 	bipush 10
-	istore 1  ; salva n
+	istore 4  ; salva n
 
-	iload 1  ; carrega n
+	bipush 10
+	putstatic YeledClass/f I ; salva global f
+
+	bipush 5
+	iload 4  ; carrega n
+	imul
+
+	putstatic YeledClass/f I ; salva global f
+
+	iload 4  ; carrega n
 	bipush 2
 	idiv
 
 	bipush 2
 	imul
 
-	istore 2  ; salva nRebuilt
+	istore 3  ; salva nRebuilt
 
-	iload 1  ; carrega n
-	iload 2  ; carrega nRebuilt
+	iload 4  ; carrega n
+	iload 3  ; carrega nRebuilt
 	if_icmpne parteElse
 
 	getstatic java/lang/System/out Ljava/io/PrintStream;
@@ -55,8 +67,8 @@
 	getstatic java/lang/System/out Ljava/io/PrintStream;
 	ldc "R"
 	invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
-	bipush 1
 	bipush 2
+	getstatic YeledClass/f I ; carrega global f
 	imul
 
 	getstatic java/lang/System/out Ljava/io/PrintStream;
@@ -82,7 +94,7 @@
 	invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
 
 	parteDepois:
-	invokevirtual YeledClass/outro()V
+	invokestatic YeledClass/outro()V
 	return
 .end method
 

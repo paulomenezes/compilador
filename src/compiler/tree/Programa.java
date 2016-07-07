@@ -6,11 +6,13 @@ import java.util.LinkedList;
 import java.util.Map;
 
 import compiler.exceptions.SemanticsException;
+import compiler.tabela.Declaracao;
+import compiler.tree.comando.DeclVariavel;
 
 public class Programa {
 	private LinkedList<DeclGlobal> declaracoes;
 	
-	public static Map<String, Integer> Variaveis = new HashMap<String, Integer>();
+	public static LinkedList<Declaracao> Variaveis = new LinkedList<>();
 	public static int STACK_INDEX = 1;
 
 	public Programa() throws SemanticsException {
@@ -28,14 +30,22 @@ public class Programa {
 	public void gerarCodigoIntermediario(PrintWriter file) {
 		file.println(".class public YeledClass");
 		file.println(".super java/lang/Object\n");
-		file.println(".method public <init>()V");
+
+		DeclVariavel.GLOBAL = true;
+		for (DeclGlobal declGlobal : declaracoes) {
+			if (declGlobal instanceof DeclVariavel)
+				declGlobal.gerarCodigoIntermediario(file);
+		}
+		
+		file.println("\n.method public <init>()V");
 		file.println("\taload_0");
 		file.println("\tinvokenonvirtual java/lang/Object/<init>()V");
 		file.println("\treturn");
 		file.println(".end method\n");
 		
 		for (DeclGlobal declGlobal : declaracoes) {
-			declGlobal.gerarCodigoIntermediario(file);
+			if (declGlobal instanceof DeclFuncao)
+				declGlobal.gerarCodigoIntermediario(file);
 		}
 	}
 }

@@ -3,6 +3,7 @@ package compiler.tree.expressao;
 import java.io.PrintWriter;
 
 import compiler.exceptions.SemanticsException;
+import compiler.tabela.Declaracao;
 import compiler.tabela.Tabela;
 import compiler.tree.Programa;
 import compiler.tree.Tipo;
@@ -30,6 +31,14 @@ public class ExprIdentificador implements Expressao {
 
 	@Override
 	public void gerarCodigoIntermediario(PrintWriter file) {
-		file.println("\tiload " + Programa.Variaveis.get(identificador) + "  ; carrega " + identificador);
+		for (Declaracao declaracao : Programa.Variaveis) {
+			if (declaracao.getNome().equals(identificador)) {
+				if (declaracao.getEscopo() == 1)
+					file.println("\tiload " + declaracao.getMemoria() + "  ; carrega " + identificador);
+				else 
+					file.println("\tgetstatic YeledClass/" + declaracao.getNome() + " I ; carrega global " + identificador);
+				break;
+			}
+		}
 	}
 }

@@ -16,6 +16,9 @@ void main()
    int n, nRebuilt;
 
    n = 10;  ** numero a ser testado
+   f = 10;
+
+   f = 5 * n;
 
    >> A divisao de inteiros arredonda para baixo (em caso 
       de divisao inexata). Assim, numeros impares ficarao
@@ -25,7 +28,7 @@ void main()
 
    if n == nRebuilt then{
    		int n;
-      prnt('P', 'A', 'R', 1 * 2);
+      prnt('P', 'A', 'R', 2 * f);
    }		
    else
       prnt('I', 'M', 'P', 'A', 'R');
