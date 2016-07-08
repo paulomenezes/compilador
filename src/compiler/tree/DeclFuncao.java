@@ -3,6 +3,7 @@ package compiler.tree;
 import java.io.PrintWriter;
 
 import compiler.exceptions.SemanticsException;
+import compiler.tabela.Tabela;
 import compiler.tree.comando.Bloco;
 
 public class DeclFuncao implements DeclGlobal {
@@ -19,8 +20,11 @@ public class DeclFuncao implements DeclGlobal {
 
 	@Override
 	public void verificarSemantica() throws SemanticsException {
+		Tabela ta = Tabela.getInstance();
+		ta.createFunc();
 		assinatura.verificarSemantica();
 		bloco.verificarSemantica();
+		ta.removeFunc();
 	}
 
 	@Override

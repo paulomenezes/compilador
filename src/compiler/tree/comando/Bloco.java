@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import compiler.exceptions.SemanticsException;
-import compiler.tabela.Tabela;
 
 
 public class Bloco implements Comando {
@@ -25,10 +24,7 @@ public class Bloco implements Comando {
 
 	@Override
 	public void verificarSemantica() throws SemanticsException {
-		Tabela t = Tabela.getInstance();
-		t.addEscopo();
 		for(Comando c : comandos) c.verificarSemantica();
-		t.removeEscopo();
 	}
 
 	@Override

@@ -8,10 +8,12 @@ public class Tabela {
 	private LinkedList<Declaracao> declg;
 	private LinkedList<Funcao> decls;
 	private static Tabela tabela;
+	private boolean func;
 	
 	private Tabela() {
-		decls = new LinkedList<>();
-		declg = new LinkedList<>();
+		this.decls = new LinkedList<>();
+		this.declg = new LinkedList<>();
+		this.func=false;
 	}
 	
 	public static synchronized Tabela getInstance() {
@@ -31,7 +33,7 @@ public class Tabela {
 	}
 	
 	public boolean addVar(Tipo tipo, String nome) {
-		if(decls.size()==0 || decls.getFirst().getEscopoAtual()==0){
+		if(!this.func){
 			Declaracao dec = new Declaracao(tipo, nome,0);
 			if(!decls.contains(new Funcao (tipo, nome)) && !declg.contains(dec)) {
 				declg.addFirst(dec);
@@ -41,27 +43,14 @@ public class Tabela {
 		}
 		else{
 			Funcao f = decls.getFirst();
-			Declaracao dec = new Declaracao(tipo,nome,f.getEscopoAtual());
-			if(!decls.contains(new Funcao(tipo,nome)) && !f.getList().contains(dec)) {
+			Declaracao dec = new Declaracao(tipo,nome,1);
+			if(!f.getList().contains(dec)) {
 				f.addList(dec);
 				decls.set(0, f);
 				return true;
 			}
 			else return false;
 		}
-		
-	}
-	
-	public void addEscopo(){
-		Funcao f = decls.getFirst();
-		f.addEscopoAtual();
-		decls.set(0, f);
-	}
-	
-	public void removeEscopo(){
-		Funcao f = decls.getFirst();
-		f.removeEscopoAtual();
-		decls.set(0, f);	
 	}
 	
 	public Tipo getTipo(String nome){
@@ -90,6 +79,14 @@ public class Tabela {
 			if(d.getNome().equals(nome)) return true;
 		}
 		return false;
+	}
+	
+	public void createFunc(){
+		this.func = true;
+	}
+	
+	public void removeFunc(){
+		this.func = false;
 	}
 	
 	public Tipo getTipoUltima(){

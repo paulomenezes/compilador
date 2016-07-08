@@ -4,7 +4,6 @@ import java.io.PrintWriter;
 import java.util.LinkedList;
 
 import compiler.exceptions.SemanticsException;
-import compiler.tabela.Declaracao;
 import compiler.tabela.Tabela;
 import compiler.tree.comando.DeclVariavel;
 
@@ -28,7 +27,9 @@ public class Assinatura {
 	public void verificarSemantica() throws SemanticsException {
 		Tabela t = Tabela.getInstance();
 		if(!t.addFunc(tipo,identificador)) throw new SemanticsException("Nome da Função já está sendo usada");
-		for(DeclVariavel dec : paramFormais) dec.verificarSemantica();
+		else{
+			for(DeclVariavel dec : paramFormais) dec.verificarSemantica();
+		}
 	}
 
 	public void gerarCodigoIntermediario(PrintWriter file) {
