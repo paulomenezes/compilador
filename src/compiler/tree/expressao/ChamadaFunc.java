@@ -38,6 +38,20 @@ public class ChamadaFunc implements Expressao, Comando {
 			expressao.gerarCodigoIntermediario(file);
 		}
 		
-		file.println("\tinvokestatic YeledClass/" + identificador + "()V");
+		Tabela ta = Tabela.getInstance();
+		if(ta.existsFunc(this.identificador)) {
+			Tipo t = ta.getTipof(identificador);
+
+			String params = "";
+			for (int i = 0; i < listaExprs.size(); i++) {
+				params += "I";
+			}
+			
+			if (t == null) {
+				file.println("\tinvokestatic YeledClass/" + identificador + "(" + params + ")V");
+			} else {
+				file.println("\tinvokestatic YeledClass/" + identificador + "(" + params + ")I");
+			}
+		}
 	}
 }

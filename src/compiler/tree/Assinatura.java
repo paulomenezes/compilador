@@ -1,5 +1,6 @@
 package compiler.tree;
 
+import java.io.PrintWriter;
 import java.util.LinkedList;
 
 import compiler.exceptions.SemanticsException;
@@ -29,11 +30,32 @@ public class Assinatura {
 		for(DeclVariavel dec : paramFormais) dec.verificarSemantica();
 	}
 
-	public String gerarCodigoIntermediario(String filename) {
-		return null;
+	public void gerarCodigoIntermediario(PrintWriter file) {
+		String t = "I";
+		if (tipo == null)
+			t = "V";
+		
+		if (identificador.equals("main"))
+			file.println(".method public static " + identificador + "([Ljava/lang/String;)" + t);
+		else {
+			String params = "";
+			for (int i = 0; i < paramFormais.size(); i++) {
+				params += "I";
+			}
+			
+			file.println(".method public static " + identificador + "(" + params + ")" + t);
+		}
+		
+		for (int i = 0; i < paramFormais.size(); i++) {
+			file.println("\tiload " + i);
+		}
 	}
 	
 	public String getIdentificador() {
 		return identificador;
+	}
+	
+	public Tipo getTipo() {
+		return tipo;
 	}
 }

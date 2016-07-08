@@ -1,15 +1,16 @@
 int f;
 int g;
 
-void extra(){
-   prnt(10);
+void extra(j:int, k:int){
+   prnt(j * k);
 }
 
-void outro()
+int outro()
 {
-   extra();
-}
+   extra(10 * 2, 3);
 
+   return 10 * 2;
+}
 
 void main() 
 {

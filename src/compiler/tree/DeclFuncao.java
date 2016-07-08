@@ -25,10 +25,7 @@ public class DeclFuncao implements DeclGlobal {
 
 	@Override
 	public void gerarCodigoIntermediario(PrintWriter file) {
-		if (assinatura.getIdentificador().equals("main"))
-			file.println(".method public static " + assinatura.getIdentificador() + "([Ljava/lang/String;)V");
-		else
-			file.println(".method public static " + assinatura.getIdentificador() + "()V");
+		assinatura.gerarCodigoIntermediario(file);
 		
 		file.println("\t.limit locals " + LOCALS);
 		file.println("\t.limit stack " + STACK);
@@ -36,7 +33,9 @@ public class DeclFuncao implements DeclGlobal {
 		
 		bloco.gerarCodigoIntermediario(file);
 
-		file.println("\treturn");
+		if (assinatura.getTipo() == null)
+			file.println("\treturn");
+		
 		file.println(".end method\n");
 	}
 
