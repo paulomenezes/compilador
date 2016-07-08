@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 
 import compiler.exceptions.SemanticsException;
 import compiler.tree.Tipo;
+import tests.TestParser;
 
 public class ExprAritmetica implements Expressao {
 
@@ -22,17 +23,17 @@ public class ExprAritmetica implements Expressao {
 		exp1.verificarSemantica();
 		exp2.verificarSemantica();
 		if(exp1.getTipo()==Tipo.INT){
-			if(exp2.getTipo()!=Tipo.INT) throw new SemanticsException("Tipo das expressões são diferentes");
+			if(exp2.getTipo()!=Tipo.INT) TestParser.erros.add("Tipo das expressões são diferentes");
 		}
 		else if(exp1.getTipo()==Tipo.FLOAT){
-			if(exp2.getTipo()!=Tipo.FLOAT) throw new SemanticsException("Tipo das expressões são diferentes");
-			if(operacao.equals("%")) throw new SemanticsException("Float com Float não suporta essa operação");
+			if(exp2.getTipo()!=Tipo.FLOAT) TestParser.erros.add("Tipo das expressões são diferentes");
+			if(operacao.equals("%")) TestParser.erros.add("Float com Float não suporta essa operação");
 		}
 		else if(exp1.getTipo()==Tipo.CHAR){
-			if(exp2.getTipo()!=Tipo.INT) throw new SemanticsException("Expressão Aritmética só suporta Float com Float, Int com Int e Char com Int");
-			if(!operacao.equals("+") && !operacao.equals("-")) throw new SemanticsException("Char com Int não suporta essa operação");
+			if(exp2.getTipo()!=Tipo.INT) TestParser.erros.add("Expressão Aritmética só suporta Float com Float, Int com Int e Char com Int");
+			if(!operacao.equals("+") && !operacao.equals("-")) TestParser.erros.add("Char com Int não suporta essa operação");
 		}
-		else throw new SemanticsException("Expressão Aritmética só suporta Float com Float, Int com Int e Char com Int");;		
+		else TestParser.erros.add("Expressão Aritmética só suporta Float com Float, Int com Int e Char com Int");;		
 	}
 	
 	@Override
@@ -57,6 +58,9 @@ public class ExprAritmetica implements Expressao {
 				break;
 			case "/":
 				file.println("\tidiv\n");
+				break;
+			case "%":
+				file.println("\tirem\n");
 				break;
 		} 
 	}

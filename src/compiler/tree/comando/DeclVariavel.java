@@ -9,9 +9,10 @@ import compiler.tabela.Tabela;
 import compiler.tree.DeclGlobal;
 import compiler.tree.Programa;
 import compiler.tree.Tipo;
+import tests.TestParser;
 
 public class DeclVariavel implements Comando, DeclGlobal {
-	private LinkedList<String> idents;
+	public LinkedList<String> idents;
 	private Tipo tipo;
 	public static boolean GLOBAL = false;
 
@@ -38,7 +39,7 @@ public class DeclVariavel implements Comando, DeclGlobal {
 	public void verificarSemantica() throws SemanticsException {
 		Tabela t = Tabela.getInstance();
 		for(String nome : idents){
-			if(!t.addVar(tipo, nome)) throw new SemanticsException("Nome da variável já está sendo usado");
+			if(!t.addVar(tipo, nome)) TestParser.erros.add("Nome da variável já está sendo usado");
 		}
 	}
 

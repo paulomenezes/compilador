@@ -4,8 +4,10 @@ import java.io.PrintWriter;
 import java.util.LinkedList;
 
 import compiler.exceptions.SemanticsException;
+import compiler.tabela.Declaracao;
 import compiler.tabela.Tabela;
 import compiler.tree.comando.DeclVariavel;
+import tests.TestParser;
 
 public class Assinatura {
 	private LinkedList<DeclVariavel> paramFormais;
@@ -26,7 +28,8 @@ public class Assinatura {
 
 	public void verificarSemantica() throws SemanticsException {
 		Tabela t = Tabela.getInstance();
-		if(!t.addFunc(tipo,identificador)) throw new SemanticsException("Nome da Função já está sendo usada");
+		if (!t.addFunc(tipo,identificador)) 
+			TestParser.erros.add("Nome da Função já está sendo usada");
 		else{
 			for(DeclVariavel dec : paramFormais) dec.verificarSemantica();
 		}
@@ -50,6 +53,14 @@ public class Assinatura {
 		
 		for (int i = 0; i < paramFormais.size(); i++) {
 			paramFormais.get(i).gerarCodigoIntermediario(file);
+			for (int j = 0; j < paramFormais.get(i).idents.size(); j++) {
+				for (int k = 0; k < Programa.Variaveis.size(); k++) {
+					if (Programa.Variaveis.get(k).getNome().equals(paramFormais.get(i).idents.get(j))) {
+						Programa.Variaveis.get(k).setMemoria(i);
+						break;
+					}
+				}
+			}
 			file.println("\tiload " + i);
 		}
 	}

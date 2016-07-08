@@ -7,6 +7,7 @@ import compiler.exceptions.SemanticsException;
 import compiler.tabela.Tabela;
 import compiler.tree.Tipo;
 import compiler.tree.comando.Comando;
+import tests.TestParser;
 
 public class ChamadaFunc implements Expressao, Comando {
 	private String identificador;
@@ -20,7 +21,7 @@ public class ChamadaFunc implements Expressao, Comando {
 	@Override
 	public void verificarSemantica() throws SemanticsException {
 		Tabela ta = Tabela.getInstance();
-		if(!ta.existsFunc(this.identificador)) throw new SemanticsException("Função não foi criada");
+		if(!ta.existsFunc(this.identificador)) TestParser.erros.add("Função não foi criada");
 		
 		for(Expressao e : listaExprs) e.verificarSemantica();
 	}

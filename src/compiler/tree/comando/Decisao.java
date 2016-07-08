@@ -6,6 +6,7 @@ import compiler.exceptions.SemanticsException;
 import compiler.tree.Tipo;
 import compiler.tree.expressao.ExprRelacional;
 import compiler.tree.expressao.Expressao;
+import tests.TestParser;
 
 public class Decisao implements Comando {
 	private Expressao expressao;
@@ -32,7 +33,7 @@ public class Decisao implements Comando {
 	@Override
 	public void verificarSemantica() throws SemanticsException {	
 		expressao.verificarSemantica();
-		if(expressao.getTipo()!=Tipo.BOOLEAN) throw new SemanticsException("Expressão de teste não é Boolean");
+		if(expressao.getTipo()!=Tipo.BOOLEAN) TestParser.erros.add("Expressão de teste não é Boolean");
 		
 		comandoIf.verificarSemantica();
 		

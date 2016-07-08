@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 
 import compiler.exceptions.SemanticsException;
 import compiler.tree.Tipo;
+import tests.TestParser;
 
 public class ExprRelacional implements Expressao {
 
@@ -23,11 +24,11 @@ public class ExprRelacional implements Expressao {
 		expr2.verificarSemantica();
 		
 		if(expr1.getTipo()==Tipo.FLOAT || expr1.getTipo()==Tipo.INT){
-			if(expr1.getTipo()!=expr2.getTipo())  throw new SemanticsException("Tipo das expressões são diferentes");
+			if(expr1.getTipo()!=expr2.getTipo())  TestParser.erros.add("Tipo das expressões são diferentes");
 		}
 		else{
-			if(!operador.equals("==") && !operador.equals("!="))  throw new SemanticsException("Essa operação só suporta Float com Float e Int com Int");
-			if(expr1.getTipo()!=expr2.getTipo()) throw new SemanticsException("Tipo das expressões são diferentes");
+			if(!operador.equals("==") && !operador.equals("!="))  TestParser.erros.add("Essa operação só suporta Float com Float e Int com Int");
+			if(expr1.getTipo()!=expr2.getTipo()) TestParser.erros.add("Tipo das expressões são diferentes");
 		}
 	}
 

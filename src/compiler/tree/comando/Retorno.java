@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import compiler.exceptions.SemanticsException;
 import compiler.tabela.Tabela;
 import compiler.tree.expressao.Expressao;
+import tests.TestParser;
 
 public class Retorno implements Comando {
 	private Expressao expressao;
@@ -17,7 +18,7 @@ public class Retorno implements Comando {
 	public void verificarSemantica() throws SemanticsException {
 		expressao.verificarSemantica();
 		Tabela t = Tabela.getInstance();
-		if(t.getTipoUltima()!=expressao.getTipo()) throw new SemanticsException("Tipo do retorno diferente do tipo da função");
+		if(t.getTipoUltima()!=expressao.getTipo()) TestParser.erros.add("Tipo do retorno diferente do tipo da função");
 	}
 
 	@Override

@@ -7,6 +7,7 @@ import compiler.tabela.Declaracao;
 import compiler.tabela.Tabela;
 import compiler.tree.Programa;
 import compiler.tree.Tipo;
+import tests.TestParser;
 
 public class ExprIdentificador implements Expressao {
 	private String identificador;
@@ -19,7 +20,7 @@ public class ExprIdentificador implements Expressao {
 	public void verificarSemantica() throws SemanticsException {
 		Tabela ta = Tabela.getInstance();
 		Tipo t = ta.getTipo(this.identificador);
-		if(t == null) throw new SemanticsException("Variável não instanciada");
+		if(t == null) TestParser.erros.add("Variável não instanciada");
 		
 	}
 
@@ -33,7 +34,7 @@ public class ExprIdentificador implements Expressao {
 	public void gerarCodigoIntermediario(PrintWriter file) {
 		for (Declaracao declaracao : Programa.Variaveis) {
 			if (declaracao.getNome().equals(identificador)) {
-				if (declaracao.getEscopo() == 1)
+				if (declaracao.getEscopo() > 0)
 					file.println("\tiload " + declaracao.getMemoria() + "  ; carrega " + identificador);
 				else 
 					file.println("\tgetstatic YeledClass/" + declaracao.getNome() + " I ; carrega global " + identificador);

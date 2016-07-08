@@ -1,6 +1,7 @@
 package compiler.tree;
 
 import java.io.PrintWriter;
+import java.util.Iterator;
 
 import compiler.exceptions.SemanticsException;
 import compiler.tabela.Tabela;
@@ -41,6 +42,13 @@ public class DeclFuncao implements DeclGlobal {
 			file.println("\treturn");
 		
 		file.println(".end method\n");
+				
+		for (int i = Programa.Variaveis.size() - 1; i >= 0; i--) {
+			if (Programa.Variaveis.get(i).getEscopo() > 0) {
+				Programa.Variaveis.remove(i);
+				Programa.STACK_INDEX--;
+			}
+		}
 	}
 
 }

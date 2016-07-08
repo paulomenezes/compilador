@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 
 import compiler.exceptions.SemanticsException;
 import compiler.tree.Tipo;
+import tests.TestParser;
 
 public class ExprLogica implements Expressao {
 	private Expressao exp1;
@@ -22,7 +23,7 @@ public class ExprLogica implements Expressao {
 		exp2.verificarSemantica();
 		
 		if(exp1.getTipo()!= Tipo.BOOLEAN || exp2.getTipo() != Tipo.BOOLEAN){
-			throw new SemanticsException("Expressão aritmética só suporta tipo booleano");
+			TestParser.erros.add("Expressão aritmética só suporta tipo booleano");
 		}
 	}
 

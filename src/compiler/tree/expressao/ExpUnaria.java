@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 
 import compiler.exceptions.SemanticsException;
 import compiler.tree.Tipo;
+import tests.TestParser;
 
 public class ExpUnaria implements Expressao {
 	private Expressao expr;
@@ -19,7 +20,7 @@ public class ExpUnaria implements Expressao {
 	public void verificarSemantica() throws SemanticsException {
 		expr.verificarSemantica();
 		if(operacao.equals("-")){
-			if(expr.getTipo()!=Tipo.FLOAT && expr.getTipo()!=Tipo.INT) throw new SemanticsException("Expressão Unária só suporta Floa e Int");
+			if(expr.getTipo()!=Tipo.FLOAT && expr.getTipo()!=Tipo.INT) TestParser.erros.add("Expressão Unária só suporta Floa e Int");
 		}
 	}
 

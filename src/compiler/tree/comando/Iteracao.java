@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import compiler.exceptions.SemanticsException;
 import compiler.tree.Tipo;
 import compiler.tree.expressao.Expressao;
+import tests.TestParser;
 
 public class Iteracao implements Comando {
 
@@ -20,7 +21,7 @@ public class Iteracao implements Comando {
 	public void verificarSemantica() throws SemanticsException {	
 		expressao.verificarSemantica();
 		if (expressao.getTipo() != Tipo.BOOLEAN) 
-			throw new SemanticsException("Expressão de teste não é Boolean");
+			TestParser.erros.add("Expressão de teste não é Boolean");
 
 		comando.verificarSemantica();		
 	}

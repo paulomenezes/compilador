@@ -46,7 +46,7 @@
 
 	teste:
 	iload 8  ; carrega i
-	iload 0  ; carrega n
+	iload 5  ; carrega n
 	if_icmplt laco
 
 

@@ -3,6 +3,7 @@ package tests;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.LinkedList;
 
 import compiler.syntax.Lexer;
 import compiler.syntax.Parser;
@@ -19,6 +20,8 @@ import java_cup.runtime.Symbol;
 
 public class TestParser {
 
+	public static LinkedList<String> erros = new LinkedList<>();
+	
 	public static void main(String args[]) throws IOException {
 		Lexer lexer; 
 		Parser parser;
@@ -33,19 +36,26 @@ public class TestParser {
 				Programa p = (Programa) output.value;
 				p.verificarSemantica();
 				
-				String filename = args[0];
-				if (filename.contains(".yld")) {
-					filename = filename.replace(".yld", ".asm");
+				if (erros.size() > 0) {
+					for (String erro : erros) {
+						System.out.println(erro);
+					}
 				} else {
-					filename += ".asm";
+					String filename = args[0];
+					if (filename.contains(".yld")) {
+						filename = filename.replace(".yld", ".asm");
+					} else {
+						filename += ".asm";
+					}
+					
+					PrintWriter writer = new PrintWriter(filename, "UTF-8");
+					p.gerarCodigoIntermediario(writer);
+					writer.close();
+					
+					System.out.println("Sucesso, arquivo gerado: " + filename);
 				}
-				
-				PrintWriter writer = new PrintWriter(filename, "UTF-8");
-				p.gerarCodigoIntermediario(writer);
-				writer.close();
-				
-				System.out.println("Sucesso: " + p);
 			} catch (Exception e) {
+				System.err.println("Erro ao compilar arquivo");
 				System.err.println(e.getMessage());
 			}
 		} else {
