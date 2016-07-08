@@ -19,14 +19,20 @@ public class Iteracao implements Comando {
 	@Override
 	public void verificarSemantica() throws SemanticsException {	
 		expressao.verificarSemantica();
-		if(expressao.getTipo()==Tipo.BOOLEAN) throw new SemanticsException("Expressão de teste não é Boolean");
+		if (expressao.getTipo() != Tipo.BOOLEAN) 
+			throw new SemanticsException("Expressão de teste não é Boolean");
 
 		comando.verificarSemantica();		
 	}
 
 	@Override
 	public void gerarCodigoIntermediario(PrintWriter file) {
-		
+		file.println("\tgoto teste");
+		file.println("\tlaco:");
+		comando.gerarCodigoIntermediario(file);
+		file.println("\tteste:");
+		expressao.gerarCodigoIntermediario(file);
+		file.println("\tif_icmplt laco\n\n");
 	}
 
 }

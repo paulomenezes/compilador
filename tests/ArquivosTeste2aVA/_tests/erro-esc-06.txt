@@ -1,0 +1,13 @@
+
+int n;
+
+void main()
+{
+   int a;
+   a = n;
+
+   char n;  **ok
+  
+   a = n;     **erro
+
+}

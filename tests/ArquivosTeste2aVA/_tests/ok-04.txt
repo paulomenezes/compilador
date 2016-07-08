@@ -1,0 +1,20 @@
+
+
+int n;
+
+void func() {
+   int a, b;
+   int c;
+
+   float fa, fb;
+   float fc;
+
+   char s;
+
+   c = (a + b) * (a - b);
+   fc = 10.0 * (fa / fb);
+
+   s = 'a';
+   s = s + 1;
+   prnt(s);
+}

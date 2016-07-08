@@ -1,0 +1,28 @@
+
+
+void func1(a: int, b: char) {
+
+}
+
+void func2(a: char, c: float) {
+
+}
+
+
+void func3(a: string, c: int) {
+
+}
+
+
+void main() {
+   float f;
+   char c;
+
+   f = 3.14;
+   c = 'W';
+
+   func1(2, c);
+   func2('P', f);
+   func3(hello, 1);
+
+}

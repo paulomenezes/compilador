@@ -1,0 +1,16 @@
+
+
+int n;
+
+void func() {
+   int ia, ib;
+   int ic;
+
+   float fa, fb;
+   float fc;
+
+   char ca;
+
+   ic = ib > 10;    **erro
+   fc = (fb > 10.0) + fa;  **erro
+}

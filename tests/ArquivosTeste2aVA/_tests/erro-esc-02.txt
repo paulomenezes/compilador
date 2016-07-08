@@ -1,0 +1,13 @@
+
+int soma;
+
+void main()
+{
+   char c;
+
+}
+
+** erro
+void soma(x : int, y : int) {
+  
+}

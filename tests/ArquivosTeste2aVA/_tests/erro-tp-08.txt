@@ -1,0 +1,18 @@
+
+
+float fFunc() {
+   return 1.0;
+}
+
+string strFunc() {
+   return teste;
+}
+
+
+def main() {
+   float b;
+   string s;
+
+   b = strFunc();  **erro
+   s = fFunc();  **erro
+}

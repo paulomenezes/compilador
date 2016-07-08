@@ -1,0 +1,7 @@
+void main(x: int) {
+	char y;
+	string s, a;
+	
+	x = -y; ** erro
+	s = -a; ** erro
+}

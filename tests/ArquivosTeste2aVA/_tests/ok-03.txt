@@ -1,0 +1,31 @@
+
+
+int mdcEuclides(x: int, y: int)
+{
+   if (y == 0) then 
+      return x;    
+    else 
+      return mdcEuclides(y, x % y);
+   
+
+}
+
+void main()
+{
+   int x, y;
+   int m;
+
+   x = 120; 
+   y = 640; 
+   
+   m = mdcEuclides(x, y);
+
+   prnt(mdc();
+   prnt( x );
+   prnt(,);
+   prnt( y );
+   prnt() );
+   prnt( m );
+
+}
+

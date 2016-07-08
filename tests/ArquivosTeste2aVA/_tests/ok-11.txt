@@ -1,0 +1,6 @@
+void main(x: int) {
+	char y;
+	int x;
+	
+	x = -y; ** erro
+}

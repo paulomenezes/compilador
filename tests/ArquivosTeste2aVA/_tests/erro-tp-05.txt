@@ -1,0 +1,12 @@
+
+
+void func() {
+   string s1;
+   string s2;
+
+  ** erro
+   if (s1 == s2) then 
+      prnt(match);
+   
+
+}

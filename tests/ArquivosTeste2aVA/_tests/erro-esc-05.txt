@@ -1,0 +1,14 @@
+
+
+void main()
+{
+
+   funcDepois(n);
+
+}
+
+
+void funcDepois(n: int) {
+
+}
+

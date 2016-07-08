@@ -1,0 +1,11 @@
+
+
+void func() {
+   int a1;
+
+   ** erro
+   if (a1 > 0.0) then 
+      prnt(ok);
+   
+   
+}

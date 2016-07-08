@@ -1,9 +1,7 @@
 package compiler.tree;
 
 import java.io.PrintWriter;
-import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Map;
 
 import compiler.exceptions.SemanticsException;
 import compiler.tabela.Declaracao;
@@ -43,6 +41,7 @@ public class Programa {
 		file.println("\treturn");
 		file.println(".end method\n");
 		
+		DeclVariavel.GLOBAL = false;
 		for (DeclGlobal declGlobal : declaracoes) {
 			if (declGlobal instanceof DeclFuncao)
 				declGlobal.gerarCodigoIntermediario(file);

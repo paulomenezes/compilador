@@ -1,0 +1,24 @@
+
+
+int iFunc() {
+   return 1;
+}
+
+float fFunc() {
+   return 1.0;
+}
+
+string strFunc() {
+   return teste;
+}
+
+
+void main() {
+   int a;
+   float b;
+   string s;
+
+   a = iFunc();
+   b = fFunc();
+   s = strFunc();
+}

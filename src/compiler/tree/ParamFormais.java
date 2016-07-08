@@ -1,7 +1,9 @@
 package compiler.tree;
 
+import java.io.PrintWriter;
 import java.util.LinkedList;
 
+import compiler.tabela.Declaracao;
 import compiler.tree.comando.DeclVariavel;
 
 public class ParamFormais {
@@ -23,7 +25,9 @@ public class ParamFormais {
 		return null;
 	}
 	
-	public String gerarCodigoIntermediario(String filename) {
-		return null;
+	public void gerarCodigoIntermediario(PrintWriter file) {
+		for (DeclVariavel declVariavel : paramFormais) {
+			declVariavel.gerarCodigoIntermediario(file);
+		}
 	}
 }

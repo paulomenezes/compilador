@@ -1,0 +1,29 @@
+int m, soma;
+
+int somaImpares(n: int)
+{
+   int i, proxImpar, resultado;
+
+   resultado = 0;
+   i = 0;
+
+   while (i < n) {
+      proxImpar = 2*i + 1; 
+      resultado = resultado + proxImpar;
+      i = i + 1;
+   }
+
+   prnt(resultado);
+   prnt('\n');
+
+   return resultado;
+}
+
+
+void main()
+{
+   m = 9;
+
+   somaImpares(m);
+
+}

@@ -1,0 +1,10 @@
+
+void main()
+{
+   char n;  **ok
+
+   {
+       int n;  **erro
+
+   }
+}

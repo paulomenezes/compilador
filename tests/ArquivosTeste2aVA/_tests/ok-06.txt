@@ -1,0 +1,16 @@
+
+
+int a1;
+
+void func() {
+   int a2;
+
+   if (a1 > 0 and a2 > -1) then 
+      prnt(ok);
+   
+
+   if (a1 <= 0 or a2 <= -1) then
+      prnt(problem);
+   
+   
+}

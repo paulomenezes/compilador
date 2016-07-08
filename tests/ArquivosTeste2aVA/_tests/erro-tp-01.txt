@@ -1,0 +1,9 @@
+
+
+void func() {
+   int n;
+   float fa, fc;
+
+   fc = fa + 'a'; **erro
+   fc = fc +  n;  **erro
+}

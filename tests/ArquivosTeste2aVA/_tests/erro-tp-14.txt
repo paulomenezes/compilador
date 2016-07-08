@@ -1,0 +1,6 @@
+void main(x: float) {
+	float z, w;
+
+	z = x % w; ** erro	
+
+}

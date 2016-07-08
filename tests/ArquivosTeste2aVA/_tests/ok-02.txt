@@ -1,0 +1,16 @@
+void main() 
+{
+   int n, nRebuilt;
+   string msg;
+
+   n = 51423; 
+
+   nRebuilt = (n / 2) * 2;
+
+   if  (n == nRebuilt) then 
+      msg = par;
+   else
+      msg = impar;
+
+   prnt(msg); 
+}

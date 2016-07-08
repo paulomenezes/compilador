@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 import java.util.LinkedList;
 
 import compiler.exceptions.SemanticsException;
+import compiler.tabela.Declaracao;
 import compiler.tabela.Tabela;
 import compiler.tree.comando.DeclVariavel;
 
@@ -47,6 +48,7 @@ public class Assinatura {
 		}
 		
 		for (int i = 0; i < paramFormais.size(); i++) {
+			paramFormais.get(i).gerarCodigoIntermediario(file);
 			file.println("\tiload " + i);
 		}
 	}

@@ -1,0 +1,24 @@
+
+
+void func1(a: int) {
+
+}
+
+void func2(a: char) {
+
+}
+
+
+void func3(a: string) {
+
+}
+
+
+void main() {
+   float b;
+
+   func1(2.0);   **erro
+   func2(Str); **erro
+   func3(1);     **erro
+
+}

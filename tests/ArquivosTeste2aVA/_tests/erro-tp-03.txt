@@ -1,0 +1,11 @@
+
+
+string func() {
+   string str1;
+   string str2;
+
+   str1 = teste;
+   str2 = str1;
+
+   return str1 + str2;  **erro
+}

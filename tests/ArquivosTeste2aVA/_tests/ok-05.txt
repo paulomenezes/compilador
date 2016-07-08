@@ -1,0 +1,16 @@
+
+
+int n;
+
+void func() {
+   int a, b;
+   int c;
+
+   int fa, fb;
+   float fc;
+
+   c = - (a + b) * (a - b);
+   fc = (fa / fb) + (fa % fb); **incomum, mas correto
+   fc = - 10.0 * fc;
+
+}

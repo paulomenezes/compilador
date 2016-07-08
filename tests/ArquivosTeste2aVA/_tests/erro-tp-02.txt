@@ -1,0 +1,13 @@
+
+
+int n;
+
+void func() {
+   int ia, ib;
+   int ic;
+
+   char character;
+
+   character = 1 + character; **erro
+   ia = 1 + character;        **erro
+}
